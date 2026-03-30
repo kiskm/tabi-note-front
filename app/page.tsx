@@ -1,5 +1,6 @@
 import { getTrips } from '@/lib/api';
 import TripListTabs from './components/TripListTabs';
+import AddTripModal from './components/AddTripModal';
 
 export default async function Page() {
   const trips = await getTrips();
@@ -14,6 +15,9 @@ export default async function Page() {
         </span>
       </div>
       <TripListTabs trips={trips} />
+      <div className="fixed bottom-6 right-6">
+        <AddTripModal />
+      </div>
     </div>
   );
 }

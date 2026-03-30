@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { getTrip } from '@/lib/api';
 import type { Expense } from '@/lib/types';
+import AddSpotForm from '@/app/components/AddSpotForm';
+import AddExpenseForm from '@/app/components/AddExpenseForm';
 
 const CATEGORY_LABEL: Record<string, string> = {
   transport: '交通',
@@ -86,34 +88,37 @@ export default async function TripDetailPage({
         <h2 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
           スポット ({trip.spots.length}件)
         </h2>
-        {trip.spots.length === 0 ? (
-          <p className="text-sm text-gray-400">スポットが登録されていません</p>
-        ) : (
-          <div className="flex flex-col gap-2">
-            {trip.spots.map((spot) => (
-              <div
-                key={spot.id}
-                className="bg-white rounded-xl border border-gray-200 px-4 py-3 flex items-center gap-3"
-              >
-                <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm shrink-0">
-                  📍
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">{spot.name}</p>
-                  {spot.category && (
-                    <p className="text-xs text-gray-500">{spot.category}</p>
-                  )}
-                </div>
+        <div className="flex flex-col gap-2 mb-3">
+          {trip.spots.map((spot) => (
+            <div
+              key={spot.id}
+              className="bg-white rounded-xl border border-gray-200 px-4 py-3 flex items-center gap-3"
+            >
+              <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm shrink-0">
+                📍
               </div>
-            ))}
-          </div>
-        )}
+              <div>
+                <p className="text-sm font-medium text-gray-900">{spot.name}</p>
+                {spot.category && (
+                  <p className="text-xs text-gray-500">{spot.category}</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+        <AddSpotForm tripId={trip.id} />
       </div>
 
       {/* 費用 */}
-      {trip.expenses.length > 0 && (
-        <ExpenseSummary expenses={trip.expenses} budget={trip.budget} />
-      )}
+      <div className="mb-4">
+        <h2 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">費用</h2>
+        {trip.expenses.length > 0 && (
+          <div className="mb-3">
+            <ExpenseSummary expenses={trip.expenses} budget={trip.budget} />
+          </div>
+        )}
+        <AddExpenseForm tripId={trip.id} />
+      </div>
     </div>
   );
 }
