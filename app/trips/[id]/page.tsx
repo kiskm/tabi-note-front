@@ -3,6 +3,10 @@ import { getTrip } from '@/lib/api';
 import type { Expense } from '@/lib/types';
 import AddSpotForm from '@/app/components/AddSpotForm';
 import AddExpenseForm from '@/app/components/AddExpenseForm';
+import TripActions from '@/app/components/TripActions';
+import { DeleteSpotButton, DeleteExpenseButton } from '@/app/components/DeleteButton';
+import { EditSpotButton, EditExpenseButton } from '@/app/components/EditButton';
+import SpotCheckButton from '@/app/components/SpotCheckButton';
 
 const CATEGORY_LABEL: Record<string, string> = {
   transport: '交通',
@@ -18,26 +22,24 @@ const CATEGORY_COLOR: Record<string, string> = {
   other: 'bg-gray-400',
 };
 
-function ExpenseSummary({ expenses, budget }: { expenses: Expense[]; budget: number | null }) {
+function ExpenseSummary({ expenses, budget, tripId }: { expenses: Expense[]; budget: number | null; tripId: number }) {
   const total = expenses.reduce((sum, e) => sum + e.amount, 0);
   const percent = budget ? Math.min(Math.round((total / budget) * 100), 100) : null;
 
-  const byCategory = expenses.reduce<Record<string, number>>((acc, e) => {
-    acc[e.category] = (acc[e.category] ?? 0) + e.amount;
-    return acc;
-  }, {});
-
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-4">
-      <h2 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">費用</h2>
-      <div className="flex flex-col gap-0 divide-y divide-gray-100">
-        {Object.entries(byCategory).map(([cat, amount]) => (
-          <div key={cat} className="flex justify-between items-center py-2">
+      <div className="flex flex-col divide-y divide-gray-100">
+        {expenses.map((expense) => (
+          <div key={expense.id} className="flex justify-between items-center py-2">
             <div className="flex items-center gap-2">
-              <span className={`w-2 h-2 rounded-full ${CATEGORY_COLOR[cat] ?? 'bg-gray-400'}`} />
-              <span className="text-xs text-gray-500">{CATEGORY_LABEL[cat] ?? cat}</span>
+              <span className={`w-2 h-2 rounded-full ${CATEGORY_COLOR[expense.category] ?? 'bg-gray-400'}`} />
+              <span className="text-xs text-gray-500">{CATEGORY_LABEL[expense.category] ?? expense.category}</span>
             </div>
-            <span className="text-sm font-medium text-gray-900">¥{amount.toLocaleString()}</span>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-gray-900">¥{expense.amount.toLocaleString()}</span>
+              <EditExpenseButton expenseId={expense.id} tripId={tripId} category={expense.category} amount={expense.amount} memo={expense.memo} />
+              <DeleteExpenseButton expenseId={expense.id} tripId={tripId} />
+            </div>
           </div>
         ))}
       </div>
@@ -48,10 +50,7 @@ function ExpenseSummary({ expenses, budget }: { expenses: Expense[]; budget: num
             <span>予算 ¥{budget.toLocaleString()}</span>
           </div>
           <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-blue-500 rounded-full"
-              style={{ width: `${percent}%` }}
-            />
+            <div className="h-full bg-blue-500 rounded-full" style={{ width: `${percent}%` }} />
           </div>
         </div>
       )}
@@ -67,42 +66,47 @@ export default async function TripDetailPage({
   const { id } = await params;
   const trip = await getTrip(Number(id));
 
-  const dateRange = [trip.startDate, trip.endDate]
-    .filter(Boolean)
-    .join(' 〜 ');
+  const dateRange = [trip.startDate, trip.endDate].filter(Boolean).join(' 〜 ');
 
   return (
     <div className="max-w-lg mx-auto px-4 py-6">
       <Link href="/" className="text-sm text-blue-600 mb-4 inline-block">
         ← 一覧
       </Link>
+
       <div className="mb-6">
         <h1 className="text-xl font-semibold text-gray-900 mb-1">{trip.title}</h1>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 mb-3">
           {[dateRange, trip.area].filter(Boolean).join(' · ')}
         </p>
+        <TripActions tripId={trip.id} status={trip.status} />
       </div>
 
       {/* スポット */}
       <div className="mb-4">
-        <h2 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
-          スポット ({trip.spots.length}件)
-        </h2>
+        {(() => {
+          const checkedCount = trip.spots.filter((s) => s.checked).length;
+          return (
+            <h2 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
+              スポット {trip.spots.length > 0 ? `${checkedCount}/${trip.spots.length}件 チェック済み` : '(0件)'}
+            </h2>
+          );
+        })()}
         <div className="flex flex-col gap-2 mb-3">
           {trip.spots.map((spot) => (
             <div
               key={spot.id}
               className="bg-white rounded-xl border border-gray-200 px-4 py-3 flex items-center gap-3"
             >
-              <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm shrink-0">
-                📍
+              <SpotCheckButton spotId={spot.id} tripId={trip.id} checked={spot.checked} />
+              <div className="flex-1">
+                <p className={`text-sm font-medium ${spot.checked ? 'text-gray-400 line-through' : 'text-gray-900'}`}>
+                  {spot.name}
+                </p>
+                {spot.category && <p className="text-xs text-gray-500">{spot.category}</p>}
               </div>
-              <div>
-                <p className="text-sm font-medium text-gray-900">{spot.name}</p>
-                {spot.category && (
-                  <p className="text-xs text-gray-500">{spot.category}</p>
-                )}
-              </div>
+              <EditSpotButton spotId={spot.id} tripId={trip.id} name={spot.name} category={spot.category} memo={spot.memo} />
+              <DeleteSpotButton spotId={spot.id} tripId={trip.id} />
             </div>
           ))}
         </div>
@@ -114,7 +118,7 @@ export default async function TripDetailPage({
         <h2 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">費用</h2>
         {trip.expenses.length > 0 && (
           <div className="mb-3">
-            <ExpenseSummary expenses={trip.expenses} budget={trip.budget} />
+            <ExpenseSummary expenses={trip.expenses} budget={trip.budget} tripId={trip.id} />
           </div>
         )}
         <AddExpenseForm tripId={trip.id} />

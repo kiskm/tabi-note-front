@@ -9,6 +9,7 @@ export type Spot = {
   lat: number | null;
   lng: number | null;
   imageUrl: string | null;
+  checked: boolean;
   tripId: number;
 };
 

@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { createSpot } from '@/app/actions';
 
 export default function AddSpotForm({ tripId }: { tripId: number }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
@@ -14,6 +16,7 @@ export default function AddSpotForm({ tripId }: { tripId: number }) {
       await createSpot(tripId, formData);
       setOpen(false);
       formRef.current?.reset();
+      router.refresh();
     } finally {
       setPending(false);
     }
