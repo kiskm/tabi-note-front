@@ -1,15 +1,21 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { deleteSpot, deleteExpense } from '@/app/actions';
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { deleteSpot, deleteExpense } from "@/app/actions";
 
-export function DeleteSpotButton({ spotId, tripId }: { spotId: number; tripId: number }) {
+export function DeleteSpotButton({
+  spotId,
+  tripId,
+}: {
+  spotId: number;
+  tripId: number;
+}) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
 
   async function handleDelete() {
-    if (!confirm('このスポットを削除しますか？')) return;
+    if (!confirm("このスポットを削除しますか？")) return;
     setPending(true);
     try {
       await deleteSpot(spotId, tripId);
@@ -30,12 +36,18 @@ export function DeleteSpotButton({ spotId, tripId }: { spotId: number; tripId: n
   );
 }
 
-export function DeleteExpenseButton({ expenseId, tripId }: { expenseId: number; tripId: number }) {
+export function DeleteExpenseButton({
+  expenseId,
+  tripId,
+}: {
+  expenseId: number;
+  tripId: number;
+}) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
 
   async function handleDelete() {
-    if (!confirm('この支出を削除しますか？')) return;
+    if (!confirm("この支出を削除しますか？")) return;
     setPending(true);
     try {
       await deleteExpense(expenseId, tripId);

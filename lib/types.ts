@@ -1,5 +1,5 @@
-export type TripStatus = 'want' | 'done';
-export type ExpenseCategory = 'transport' | 'hotel' | 'food' | 'other';
+export type TripStatus = "want" | "done";
+export type ExpenseCategory = "transport" | "hotel" | "food" | "other";
 
 export type Spot = {
   id: number;
