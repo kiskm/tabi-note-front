@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 旅ノート フロントエンド
 
-## Getting Started
+旅行記録アプリ「旅ノート」のフロントエンド。
 
-First, run the development server:
+## 概要
+
+ユーザーが旅行の記録を作成・共有できる Web アプリ。
+個人開発のポートフォリオとして制作。
+
+バックエンドリポジトリ: [tabi-note-api](https://github.com/kiskm/tabi-note-api)
+
+## デモ
+
+TODO
+
+## 主な機能
+
+- ユーザー認証
+- 旅行記の作成・編集・削除
+- 写真のアップロード・表示
+- （実装した機能を書く）
+
+## 技術スタック
+
+| カテゴリ         | 採用技術             |
+| ---------------- | -------------------- |
+| 言語             | TypeScript           |
+| フレームワーク   | Next.js (App Router) |
+| スタイリング     | Tailwind CSS         |
+| HTTPクライアント | Axios / fetch        |
+
+## 技術選定の理由
+
+TODO
+
+### Next.js を選んだ理由
+
+TODO
+
+### App Router を選んだ理由
+
+（同上）
+
+## セットアップ
 
 ```bash
+# 依存関係インストール
+npm install
+
+# 環境変数ファイル作成
+cp .env.example .env.local
+# .env.local を編集してAPIエンドポイントなどを設定
+
+# 開発サーバー起動
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+開発サーバーが http://localhost:3000 で起動します。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ディレクトリ構成
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├─── app/          # ページコンポーネント（App Router）
+| └─ components/   # 再利用可能なコンポーネント
+| └─ trips/[id]/   # 旅行ページコンポーネント（App Router）
+├── lib/           # ユーティリティ関数
+```
 
-## Learn More
+## 今後の改善予定
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [ ] スマホレスポンシブ対応
+- [ ] グループ機能の追加
+- [ ] URLパラメータの設計見直し
+- [ ] Dockerization
+- [ ] パフォーマンス改善
