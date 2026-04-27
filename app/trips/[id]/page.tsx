@@ -66,11 +66,16 @@ function ExpenseSummary({
           >
             <div className="flex items-center gap-2">
               <span
-                className={`w-2 h-2 rounded-full ${CATEGORY_COLOR[expense.category] ?? "bg-gray-400"}`}
+                className={`w-2 h-2 rounded-full shrink-0 ${CATEGORY_COLOR[expense.category] ?? "bg-gray-400"}`}
               />
-              <span className="text-xs text-gray-500">
-                {CATEGORY_LABEL[expense.category] ?? expense.category}
-              </span>
+              <div>
+                <span className="text-xs text-gray-500">
+                  {CATEGORY_LABEL[expense.category] ?? expense.category}
+                </span>
+                {expense.memo && (
+                  <p className="text-xs text-gray-400">{expense.memo}</p>
+                )}
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-gray-900">
@@ -191,6 +196,9 @@ export default async function TripDetailPage({
                 </p>
                 {spot.category && (
                   <p className="text-xs text-gray-500">{spot.category}</p>
+                )}
+                {spot.memo && (
+                  <p className="text-xs text-gray-400 mt-0.5">{spot.memo}</p>
                 )}
               </div>
               <EditSpotButton
