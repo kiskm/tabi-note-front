@@ -27,6 +27,13 @@ const CATEGORY_COLOR: Record<string, string> = {
   other: "bg-gray-400",
 };
 
+const CATEGORY_BAR_COLOR: Record<string, string> = {
+  transport: "bg-blue-500",
+  hotel: "bg-green-500",
+  food: "bg-yellow-400",
+  other: "bg-gray-400",
+};
+
 function ExpenseSummary({
   expenses,
   budget,
@@ -37,9 +44,17 @@ function ExpenseSummary({
   tripId: number;
 }) {
   const total = expenses.reduce((sum, e) => sum + e.amount, 0);
-  const percent = budget
+  const budgetPercent = budget
     ? Math.min(Math.round((total / budget) * 100), 100)
     : null;
+
+  const categoryTotals = (["transport", "hotel", "food", "other"] as const).map(
+    (cat) => ({
+      key: cat,
+      label: CATEGORY_LABEL[cat],
+      amount: expenses.filter((e) => e.category === cat).reduce((s, e) => s + e.amount, 0),
+    })
+  ).filter((c) => c.amount > 0);
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-4">
@@ -73,6 +88,33 @@ function ExpenseSummary({
           </div>
         ))}
       </div>
+
+      {/* カテゴリ別内訳グラフ */}
+      {categoryTotals.length > 0 && (
+        <div className="mt-3 pt-3 border-t border-gray-100">
+          <div className="flex h-3 rounded-full overflow-hidden gap-px">
+            {categoryTotals.map((c) => (
+              <div
+                key={c.key}
+                className={`${CATEGORY_BAR_COLOR[c.key]} h-full`}
+                style={{ width: `${(c.amount / total) * 100}%` }}
+              />
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2">
+            {categoryTotals.map((c) => (
+              <div key={c.key} className="flex items-center gap-1">
+                <span className={`w-2 h-2 rounded-full shrink-0 ${CATEGORY_BAR_COLOR[c.key]}`} />
+                <span className="text-xs text-gray-500">
+                  {c.label} ¥{c.amount.toLocaleString()} ({Math.round((c.amount / total) * 100)}%)
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 予算バー */}
       {budget && (
         <div className="mt-3 pt-3 border-t border-gray-100">
           <div className="flex justify-between text-xs text-gray-500 mb-1">
@@ -82,7 +124,7 @@ function ExpenseSummary({
           <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
             <div
               className="h-full bg-blue-500 rounded-full"
-              style={{ width: `${percent}%` }}
+              style={{ width: `${budgetPercent}%` }}
             />
           </div>
         </div>
