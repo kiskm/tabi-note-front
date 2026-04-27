@@ -5,6 +5,10 @@ import Link from "next/link";
 import type { Trip } from "@/lib/types";
 
 function TripCard({ trip }: { trip: Trip }) {
+  const total = trip.spots.length;
+  const checked = trip.spots.filter((s) => s.checked).length;
+  const percent = total > 0 ? Math.round((checked / total) * 100) : 0;
+
   return (
     <Link href={`/trips/${trip.id}`}>
       <div className="bg-white rounded-xl border border-gray-200 p-4 hover:border-gray-300 transition-colors cursor-pointer">
@@ -23,16 +27,21 @@ function TripCard({ trip }: { trip: Trip }) {
           </span>
         </div>
         {(trip.area || trip.startDate) && (
-          <p className="text-xs text-gray-500 mb-3">
+          <p className="text-xs text-gray-500 mb-2">
             {[trip.startDate?.slice(0, 7).replace("-", "年") + "月", trip.area]
               .filter(Boolean)
               .join(" · ")}
           </p>
         )}
+        {total > 0 && (
+          <p className="text-xs text-gray-400 mb-2">
+            スポット {checked}/{total}件チェック済み
+          </p>
+        )}
         <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
           <div
-            className="h-full bg-green-500 rounded-full"
-            style={{ width: trip.status === "done" ? "100%" : "0%" }}
+            className="h-full bg-green-500 rounded-full transition-all"
+            style={{ width: `${percent}%` }}
           />
         </div>
       </div>

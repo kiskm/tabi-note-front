@@ -29,6 +29,7 @@ export type Trip = {
   area: string | null;
   status: TripStatus;
   budget: number | null;
+  spots: { id: number; checked: boolean }[];
 };
 
 export type TripDetail = Trip & {
