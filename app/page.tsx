@@ -7,7 +7,7 @@ export default async function Page() {
   const doneCount = trips.filter((t) => t.status === "done").length;
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-6">
+    <div className="mx-auto px-4 py-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-lg font-semibold text-gray-900">旅ノート</h1>
         <span className="text-xs text-gray-500">

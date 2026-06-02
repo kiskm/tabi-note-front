@@ -26,12 +26,14 @@ function TripCard({ trip }: { trip: Trip }) {
             {trip.status === "done" ? "行った" : "行きたい"}
           </span>
         </div>
-        {(trip.area || trip.startDate) && (
+        {trip.area || trip.startDate ? (
           <p className="text-xs text-gray-500 mb-2">
             {[trip.startDate?.slice(0, 7).replace("-", "年") + "月", trip.area]
               .filter(Boolean)
               .join(" · ")}
           </p>
+        ) : (
+          <br />
         )}
         {total > 0 && (
           <p className="text-xs text-gray-400 mb-2">
@@ -75,7 +77,7 @@ export default function TripListTabs({ trips }: { trips: Trip[] }) {
           旅行が登録されていません
         </p>
       ) : (
-        <div className="flex flex-col gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {filtered.map((trip) => (
             <TripCard key={trip.id} trip={trip} />
           ))}
