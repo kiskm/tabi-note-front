@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { Trip } from "@/lib/types";
+import AddTripModal from "./AddTripModal";
 
 function TripCard({ trip }: { trip: Trip }) {
   const total = trip.spots.length;
@@ -35,10 +36,12 @@ function TripCard({ trip }: { trip: Trip }) {
         ) : (
           <br />
         )}
-        {total > 0 && (
+        {total > 0 ? (
           <p className="text-xs text-gray-400 mb-2">
             スポット {checked}/{total}件チェック済み
           </p>
+        ) : (
+          <br />
         )}
         <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
           <div

@@ -81,9 +81,15 @@ export default function AddTripModal() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center text-xl shadow-md hover:bg-gray-700 transition-colors"
+        className="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center text-xl shadow-md hover:bg-gray-700 transition-colors md:hidden"
       >
         +
+      </button>
+      <button
+        onClick={() => setOpen(true)}
+        className="rounded-lg py-2 px-3 bg-gray-900 text-gray-100 text-lg font-serif shadow-md hover:bg-gray-700 transition-colors cursor-pointer hidden md:block"
+      >
+        旅行を追加
       </button>
 
       {open && (
