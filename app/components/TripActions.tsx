@@ -41,7 +41,7 @@ export default function TripActions({
       <button
         onClick={handleStatusToggle}
         disabled={pending}
-        className={`text-xs w-20 px-3 py-1.5 rounded-lg font-medium border transition-colors disabled:opacity-50 ${
+        className={`text-xs w-20 px-3 py-1.5 rounded-lg font-medium border cursor-pointer transition-colors disabled:opacity-50 ${
           status === "done"
             ? "bg-green-100 text-green-800 border-green-200 hover:bg-green-200"
             : "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
@@ -52,7 +52,7 @@ export default function TripActions({
       <button
         onClick={handleDelete}
         disabled={pending}
-        className="text-xs px-3 py-1.5 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 disabled:opacity-50"
+        className="text-xs px-3 py-1.5 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 disabled:opacity-50 cursor-pointer"
       >
         削除
       </button>
