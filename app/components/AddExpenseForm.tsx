@@ -11,7 +11,7 @@ const CATEGORIES = [
   { value: "other", label: "その他" },
 ];
 
-export default function AddExpenseForm({ tripId }: { tripId: number }) {
+const AddExpenseForm = ({ tripId }: { tripId: number }) => {
   // 状態管理
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -21,7 +21,7 @@ export default function AddExpenseForm({ tripId }: { tripId: number }) {
   const [amount, setAmount] = useState("");
   const [memo, setMemo] = useState("");
 
-  async function handleSubmit() {
+  const handleSubmit = async () => {
     // バリデーション
     const num = Number(amount);
     if (!amount) {
@@ -68,7 +68,7 @@ export default function AddExpenseForm({ tripId }: { tripId: number }) {
     } finally {
       setPending(false);
     }
-  }
+  };
 
   if (!open) {
     return (
@@ -135,4 +135,6 @@ export default function AddExpenseForm({ tripId }: { tripId: number }) {
       </div>
     </div>
   );
-}
+};
+
+export default AddExpenseForm;

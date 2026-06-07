@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createSpot } from "@/app/actions";
 
-export default function AddSpotForm({ tripId }: { tripId: number }) {
+const AddSpotForm = ({ tripId }: { tripId: number }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState(false);
@@ -13,7 +13,7 @@ export default function AddSpotForm({ tripId }: { tripId: number }) {
   const [category, setCategory] = useState("");
   const [memo, setMemo] = useState("");
 
-  async function handleSubmit() {
+  const handleSubmit = async () => {
     // バリデーション
     if (!name.trim()) {
       setError("スポット名は必須です");
@@ -54,7 +54,7 @@ export default function AddSpotForm({ tripId }: { tripId: number }) {
     } finally {
       setPending(false);
     }
-  }
+  };
 
   if (!open) {
     return (
@@ -114,4 +114,6 @@ export default function AddSpotForm({ tripId }: { tripId: number }) {
       </div>
     </div>
   );
-}
+};
+
+export default AddSpotForm;
