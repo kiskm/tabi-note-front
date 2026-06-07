@@ -48,13 +48,15 @@ function ExpenseSummary({
     ? Math.min(Math.round((total / budget) * 100), 100)
     : null;
 
-  const categoryTotals = (["transport", "hotel", "food", "other"] as const).map(
-    (cat) => ({
+  const categoryTotals = (["transport", "hotel", "food", "other"] as const)
+    .map((cat) => ({
       key: cat,
       label: CATEGORY_LABEL[cat],
-      amount: expenses.filter((e) => e.category === cat).reduce((s, e) => s + e.amount, 0),
-    })
-  ).filter((c) => c.amount > 0);
+      amount: expenses
+        .filter((e) => e.category === cat)
+        .reduce((s, e) => s + e.amount, 0),
+    }))
+    .filter((c) => c.amount > 0);
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-4">
@@ -109,9 +111,12 @@ function ExpenseSummary({
           <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2">
             {categoryTotals.map((c) => (
               <div key={c.key} className="flex items-center gap-1">
-                <span className={`w-2 h-2 rounded-full shrink-0 ${CATEGORY_BAR_COLOR[c.key]}`} />
+                <span
+                  className={`w-2 h-2 rounded-full shrink-0 ${CATEGORY_BAR_COLOR[c.key]}`}
+                />
                 <span className="text-xs text-gray-500">
-                  {c.label} ¥{c.amount.toLocaleString()} ({Math.round((c.amount / total) * 100)}%)
+                  {c.label} ¥{c.amount.toLocaleString()} (
+                  {Math.round((c.amount / total) * 100)}%)
                 </span>
               </div>
             ))}
@@ -149,88 +154,91 @@ export default async function TripDetailPage({
   const dateRange = [trip.startDate, trip.endDate].filter(Boolean).join(" 〜 ");
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-6">
-      <Link href="/" className="text-sm text-blue-600 mb-4 inline-block">
-        ← 一覧
-      </Link>
-
-      <div className="mb-6">
-        <h1 className="text-xl font-semibold text-gray-900 mb-1">
-          {trip.title}
+    <>
+      <div className="flex items-center justify-between pb-6 border-b border-b-gray-400">
+        <h1 className="px-4 md:px-8 pt-6 text-3xl font-semibold font-serif text-gray-900">
+          <Link href="/">旅ノート</Link>
         </h1>
-        <p className="text-sm text-gray-500 mb-3">
-          {[dateRange, trip.area].filter(Boolean).join(" · ")}
-        </p>
-        <TripActions tripId={trip.id} status={trip.status} />
       </div>
-
-      {/* スポット */}
-      <div className="mb-4">
-        {(() => {
-          const checkedCount = trip.spots.filter((s) => s.checked).length;
-          return (
-            <h2 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
-              スポット{" "}
-              {trip.spots.length > 0
-                ? `${checkedCount}/${trip.spots.length}件 チェック済み`
-                : "(0件)"}
-            </h2>
-          );
-        })()}
-        <div className="flex flex-col gap-2 mb-3">
-          {trip.spots.map((spot) => (
-            <div
-              key={spot.id}
-              className="bg-white rounded-xl border border-gray-200 px-4 py-3 flex items-center gap-3"
-            >
-              <SpotCheckButton
-                spotId={spot.id}
-                tripId={trip.id}
-                checked={spot.checked}
-              />
-              <div className="flex-1">
-                <p
-                  className={`text-sm font-medium ${spot.checked ? "text-gray-400 line-through" : "text-gray-900"}`}
-                >
-                  {spot.name}
-                </p>
-                {spot.category && (
-                  <p className="text-xs text-gray-500">{spot.category}</p>
-                )}
-                {spot.memo && (
-                  <p className="text-xs text-gray-400 mt-0.5">{spot.memo}</p>
-                )}
-              </div>
-              <EditSpotButton
-                spotId={spot.id}
-                tripId={trip.id}
-                name={spot.name}
-                category={spot.category}
-                memo={spot.memo}
-              />
-              <DeleteSpotButton spotId={spot.id} tripId={trip.id} />
-            </div>
-          ))}
+      <div className="mx-auto px-4 py-6 md:px-8">
+        <div className="mb-6">
+          <h1 className="text-2xl font-semibold font-serif text-gray-900 mb-1">
+            {trip.title}
+          </h1>
+          <p className="text-sm text-gray-500 mb-3">
+            {[dateRange, trip.area].filter(Boolean).join(" · ")}
+          </p>
+          <TripActions tripId={trip.id} status={trip.status} />
         </div>
-        <AddSpotForm tripId={trip.id} />
-      </div>
 
-      {/* 費用 */}
-      <div className="mb-4">
-        <h2 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
-          費用
-        </h2>
-        {trip.expenses.length > 0 && (
-          <div className="mb-3">
-            <ExpenseSummary
-              expenses={trip.expenses}
-              budget={trip.budget}
-              tripId={trip.id}
-            />
+        {/* スポット */}
+        <div className="mb-4">
+          {(() => {
+            const checkedCount = trip.spots.filter((s) => s.checked).length;
+            return (
+              <h2 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
+                スポット{" "}
+                {trip.spots.length > 0
+                  ? `${checkedCount}/${trip.spots.length}件 チェック済み`
+                  : "(0件)"}
+              </h2>
+            );
+          })()}
+          <div className="flex flex-col gap-2 mb-3">
+            {trip.spots.map((spot) => (
+              <div
+                key={spot.id}
+                className="bg-white rounded-xl border border-gray-200 px-4 py-3 flex items-center gap-3"
+              >
+                <SpotCheckButton
+                  spotId={spot.id}
+                  tripId={trip.id}
+                  checked={spot.checked}
+                />
+                <div className="flex-1">
+                  <p
+                    className={`text-sm font-medium ${spot.checked ? "text-gray-400 line-through" : "text-gray-900"}`}
+                  >
+                    {spot.name}
+                  </p>
+                  {spot.category && (
+                    <p className="text-xs text-gray-500">{spot.category}</p>
+                  )}
+                  {spot.memo && (
+                    <p className="text-xs text-gray-400 mt-0.5">{spot.memo}</p>
+                  )}
+                </div>
+                <EditSpotButton
+                  spotId={spot.id}
+                  tripId={trip.id}
+                  name={spot.name}
+                  category={spot.category}
+                  memo={spot.memo}
+                />
+                <DeleteSpotButton spotId={spot.id} tripId={trip.id} />
+              </div>
+            ))}
           </div>
-        )}
-        <AddExpenseForm tripId={trip.id} />
+          <AddSpotForm tripId={trip.id} />
+        </div>
+
+        {/* 費用 */}
+        <div className="mb-4">
+          <h2 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
+            費用
+          </h2>
+          {trip.expenses.length > 0 && (
+            <div className="mb-3">
+              <ExpenseSummary
+                expenses={trip.expenses}
+                budget={trip.budget}
+                tripId={trip.id}
+              />
+            </div>
+          )}
+          <AddExpenseForm tripId={trip.id} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
