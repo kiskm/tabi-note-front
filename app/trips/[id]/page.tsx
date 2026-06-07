@@ -4,11 +4,10 @@ import type { Expense } from "@/lib/types";
 import AddSpotForm from "@/app/components/AddSpotForm";
 import AddExpenseForm from "@/app/components/AddExpenseForm";
 import TripActions from "@/app/components/TripActions";
-import {
-  DeleteSpotButton,
-  DeleteExpenseButton,
-} from "@/app/components/DeleteButton";
-import { EditSpotButton, EditExpenseButton } from "@/app/components/EditButton";
+import { DeleteSpotButton } from "@/app/components/DeleteSpotButton";
+import { DeleteExpenseButton } from "@/app/components/DeleteExpenseButton";
+import { EditSpotButton } from "@/app/components/EditSpotButton";
+import { EditExpenseButton } from "@/app/components/EditExpenseButton";
 import SpotCheckButton from "@/app/components/SpotCheckButton";
 
 // 定数の定義
@@ -34,7 +33,7 @@ const CATEGORY_BAR_COLOR: Record<string, string> = {
   other: "bg-gray-400",
 };
 
-function ExpenseSummary({
+const ExpenseSummary = ({
   expenses,
   budget,
   tripId,
@@ -42,7 +41,7 @@ function ExpenseSummary({
   expenses: Expense[];
   budget: number | null;
   tripId: number;
-}) {
+}) => {
   const total = expenses.reduce((sum, e) => sum + e.amount, 0);
   const budgetPercent = budget
     ? Math.min(Math.round((total / budget) * 100), 100)
@@ -141,13 +140,13 @@ function ExpenseSummary({
       )}
     </div>
   );
-}
+};
 
-export default async function TripDetailPage({
+const TripDetailPage = async ({
   params,
 }: {
   params: Promise<{ id: string }>;
-}) {
+}) => {
   const { id } = await params;
   const trip = await getTrip(Number(id));
 
@@ -241,4 +240,6 @@ export default async function TripDetailPage({
       </div>
     </>
   );
-}
+};
+
+export default TripDetailPage;
