@@ -5,17 +5,17 @@ import { useState } from "react";
 import { updateTripStatus, deleteTrip } from "@/app/actions";
 import type { TripStatus } from "@/lib/types";
 
-export default function TripActions({
+const TripActions = ({
   tripId,
   status,
 }: {
   tripId: number;
   status: TripStatus;
-}) {
+}) => {
   const router = useRouter();
   const [pending, setPending] = useState(false);
 
-  async function handleStatusToggle() {
+  const handleStatusToggle = async () => {
     setPending(true);
     try {
       await updateTripStatus(tripId, status === "want" ? "done" : "want");
@@ -23,9 +23,9 @@ export default function TripActions({
     } finally {
       setPending(false);
     }
-  }
+  };
 
-  async function handleDelete() {
+  const handleDelete = async () => {
     if (!confirm("この旅行を削除しますか？")) return;
     setPending(true);
     try {
@@ -34,7 +34,7 @@ export default function TripActions({
     } finally {
       setPending(false);
     }
-  }
+  };
 
   return (
     <div className="flex gap-2">
@@ -58,4 +58,6 @@ export default function TripActions({
       </button>
     </div>
   );
-}
+};
+
+export default TripActions;

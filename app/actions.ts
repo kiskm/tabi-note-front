@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 const API_BASE = process.env.API_URL ?? "http://localhost:8000";
 
 // 旅行を追加
-export async function createTrip(formData: FormData) {
+export const createTrip = async (formData: FormData) => {
   const body = {
     title: formData.get("title"),
     area: formData.get("area") || undefined,
@@ -22,9 +22,9 @@ export async function createTrip(formData: FormData) {
   });
   if (!res.ok) throw new Error("Failed to create trip");
   refresh();
-}
+};
 
-export async function updateTripStatus(id: number, status: "want" | "done") {
+export const updateTripStatus = async (id: number, status: "want" | "done") => {
   const res = await fetch(`${API_BASE}/trips/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -32,9 +32,9 @@ export async function updateTripStatus(id: number, status: "want" | "done") {
   });
   if (!res.ok) throw new Error("Failed to update trip");
   revalidatePath("/");
-}
+};
 
-export async function createSpot(tripId: number, formData: FormData) {
+export const createSpot = async (tripId: number, formData: FormData) => {
   const body = {
     name: formData.get("name"),
     category: formData.get("category") || undefined,
@@ -47,9 +47,9 @@ export async function createSpot(tripId: number, formData: FormData) {
   });
   if (!res.ok) throw new Error("Failed to create spot");
   revalidatePath(`/trips/${tripId}`);
-}
+};
 
-export async function createExpense(tripId: number, formData: FormData) {
+export const createExpense = async (tripId: number, formData: FormData) => {
   const body = {
     category: formData.get("category"),
     amount: Number(formData.get("amount")),
@@ -62,13 +62,13 @@ export async function createExpense(tripId: number, formData: FormData) {
   });
   if (!res.ok) throw new Error("Failed to create expense");
   revalidatePath(`/trips/${tripId}`);
-}
+};
 
-export async function updateSpot(
+export const updateSpot = async (
   spotId: number,
   tripId: number,
   data: { name?: string; category?: string; memo?: string },
-) {
+) => {
   const res = await fetch(`${API_BASE}/spots/${spotId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -76,13 +76,13 @@ export async function updateSpot(
   });
   if (!res.ok) throw new Error("Failed to update spot");
   revalidatePath(`/trips/${tripId}`);
-}
+};
 
-export async function updateExpense(
+export const updateExpense = async (
   expenseId: number,
   tripId: number,
   data: { category?: string; amount?: number; memo?: string },
-) {
+) => {
   const res = await fetch(`${API_BASE}/expenses/${expenseId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -90,32 +90,32 @@ export async function updateExpense(
   });
   if (!res.ok) throw new Error("Failed to update expense");
   revalidatePath(`/trips/${tripId}`);
-}
+};
 
-export async function deleteTrip(id: number) {
+export const deleteTrip = async (id: number) => {
   const res = await fetch(`${API_BASE}/trips/${id}`, { method: "DELETE" });
   if (!res.ok) throw new Error("Failed to delete trip");
   revalidatePath("/");
-}
+};
 
-export async function toggleSpotChecked(spotId: number, tripId: number) {
+export const toggleSpotChecked = async (spotId: number, tripId: number) => {
   const res = await fetch(`${API_BASE}/spots/${spotId}/check`, {
     method: "PATCH",
   });
   if (!res.ok) throw new Error("Failed to toggle spot");
   revalidatePath(`/trips/${tripId}`);
-}
+};
 
-export async function deleteSpot(spotId: number, tripId: number) {
+export const deleteSpot = async (spotId: number, tripId: number) => {
   const res = await fetch(`${API_BASE}/spots/${spotId}`, { method: "DELETE" });
   if (!res.ok) throw new Error("Failed to delete spot");
   revalidatePath(`/trips/${tripId}`);
-}
+};
 
-export async function deleteExpense(expenseId: number, tripId: number) {
+export const deleteExpense = async (expenseId: number, tripId: number) => {
   const res = await fetch(`${API_BASE}/expenses/${expenseId}`, {
     method: "DELETE",
   });
   if (!res.ok) throw new Error("Failed to delete expense");
   revalidatePath(`/trips/${tripId}`);
-}
+};

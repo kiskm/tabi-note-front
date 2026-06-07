@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { createTrip } from "@/app/actions";
 
-export default function AddTripModal() {
+const AddTripModal = () => {
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -13,7 +13,7 @@ export default function AddTripModal() {
   const [endDate, setEndDate] = useState("");
   const [budget, setBudget] = useState("");
 
-  async function handleSubmit() {
+  const handleSubmit = async () => {
     // バリデーション
     if (!title.trim()) {
       setError("タイトルは必須です");
@@ -75,7 +75,7 @@ export default function AddTripModal() {
     } finally {
       setPending(false);
     }
-  }
+  };
 
   return (
     <>
@@ -188,4 +188,6 @@ export default function AddTripModal() {
       )}
     </>
   );
-}
+};
+
+export default AddTripModal;

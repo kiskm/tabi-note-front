@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toggleSpotChecked } from "@/app/actions";
 
-export default function SpotCheckButton({
+const SpotCheckButton = ({
   spotId,
   tripId,
   checked,
@@ -12,11 +12,11 @@ export default function SpotCheckButton({
   spotId: number;
   tripId: number;
   checked: boolean;
-}) {
+}) => {
   const router = useRouter();
   const [pending, setPending] = useState(false);
 
-  async function handleToggle() {
+  const handleToggle = async () => {
     setPending(true);
     try {
       await toggleSpotChecked(spotId, tripId);
@@ -24,7 +24,7 @@ export default function SpotCheckButton({
     } finally {
       setPending(false);
     }
-  }
+  };
 
   return (
     <button
@@ -39,4 +39,6 @@ export default function SpotCheckButton({
       ✓
     </button>
   );
-}
+};
+
+export default SpotCheckButton;
