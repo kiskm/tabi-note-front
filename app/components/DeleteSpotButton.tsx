@@ -29,7 +29,7 @@ export const DeleteSpotButton = ({
     <button
       onClick={handleDelete}
       disabled={pending}
-      className="ml-auto text-xs text-gray-400 hover:text-red-500 disabled:opacity-50 px-2"
+      className="ml-auto px-2 text-xs text-gray-400 hover:text-red-500 disabled:opacity-50 cursor-pointer"
     >
       削除
     </button>

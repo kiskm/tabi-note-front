@@ -29,7 +29,7 @@ export const DeleteExpenseButton = ({
     <button
       onClick={handleDelete}
       disabled={pending}
-      className="text-xs text-gray-400 hover:text-red-500 disabled:opacity-50"
+      className="px-2 text-xs text-gray-400 hover:text-red-500 disabled:opacity-50 cursor-pointer"
     >
       削除
     </button>

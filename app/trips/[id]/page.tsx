@@ -97,7 +97,7 @@ const ExpenseSummary = ({
 
       {/* カテゴリ別内訳グラフ */}
       {categoryTotals.length > 0 && (
-        <div className="mt-3 pt-3 border-t border-gray-100">
+        <div className="pt-6 pb-2 border-t border-gray-100">
           <div className="flex h-3 rounded-full overflow-hidden gap-px">
             {categoryTotals.map((c) => (
               <div
@@ -125,7 +125,7 @@ const ExpenseSummary = ({
 
       {/* 予算バー */}
       {budget && (
-        <div className="mt-3 pt-3 border-t border-gray-100">
+        <div className="mt-3 pt-3 pb-1 border-t border-gray-100">
           <div className="flex justify-between text-xs text-gray-500 mb-1">
             <span>合計 ¥{total.toLocaleString()}</span>
             <span>予算 ¥{budget.toLocaleString()}</span>

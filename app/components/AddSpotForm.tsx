@@ -60,7 +60,7 @@ const AddSpotForm = ({ tripId }: { tripId: number }) => {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="text-sm text-blue-600 hover:underline"
+        className="text-sm text-blue-600 hover:underline cursor-pointer"
       >
         + スポットを追加
       </button>
@@ -99,7 +99,7 @@ const AddSpotForm = ({ tripId }: { tripId: number }) => {
             setOpen(false);
             setError(null);
           }}
-          className="flex-1 py-2 rounded-lg border border-gray-200 text-sm text-gray-600"
+          className="flex-1 py-2 rounded-lg border border-gray-200 text-sm text-gray-600 cursor-pointer"
         >
           キャンセル
         </button>
@@ -107,7 +107,7 @@ const AddSpotForm = ({ tripId }: { tripId: number }) => {
           type="button"
           onClick={handleSubmit}
           disabled={pending}
-          className="flex-1 py-2 rounded-lg bg-gray-900 text-white text-sm disabled:opacity-50"
+          className="flex-1 py-2 rounded-lg bg-gray-900 text-white text-sm disabled:opacity-50 cursor-pointer"
         >
           {pending ? "追加中..." : "追加"}
         </button>
