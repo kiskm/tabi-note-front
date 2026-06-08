@@ -10,7 +10,7 @@ const TripCard = ({ trip }: { trip: Trip }) => {
 
   return (
     <Link href={`/trips/${trip.id}`}>
-      <div className="bg-white rounded-xl border border-gray-200 p-4 hover:border-gray-300 transition-colors cursor-pointer">
+      <div className="bg-white rounded-xl border border-gray-200 p-4 hover:border-gray-300 transition-colors duration-300 cursor-pointer">
         <div className="flex justify-between items-start mb-2">
           <h2 className="text-sm font-medium text-gray-900 leading-snug">
             {trip.title}

@@ -15,7 +15,7 @@ const TripListTabs = ({ trips }: { trips: Trip[] }) => {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
+            className={`flex-1 py-2.5 text-sm font-medium transition-colors cursor-pointer ${
               activeTab === tab
                 ? "text-gray-900 border-b-2 border-gray-900"
                 : "text-gray-500"
