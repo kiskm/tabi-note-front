@@ -109,7 +109,7 @@ export const EditSpotButton = ({
               setEditing(false);
               setError(null);
             }}
-            className="flex-1 py-2 rounded-lg border border-gray-200 text-sm text-gray-600 cursor-pointer"
+            className="flex-1 py-2 rounded-lg border border-gray-200 text-sm text-gray-600 hover:bg-gray-200 transition-colors duration-300 cursor-pointer"
           >
             キャンセル
           </button>
@@ -117,7 +117,7 @@ export const EditSpotButton = ({
             type="button"
             onClick={handleSave}
             disabled={pending}
-            className="flex-1 py-2 rounded-lg bg-gray-900 text-white text-sm disabled:opacity-50 cursor-pointer"
+            className="flex-1 py-2 rounded-lg bg-gray-900 text-white text-sm disabled:opacity-50 hover:bg-gray-700 transition-colors duration-300 cursor-pointer"
           >
             {pending ? "保存中..." : "保存"}
           </button>

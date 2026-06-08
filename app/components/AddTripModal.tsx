@@ -87,7 +87,7 @@ const AddTripModal = () => {
       </button>
       <button
         onClick={() => setOpen(true)}
-        className="rounded-lg py-2 px-3 bg-gray-900 text-gray-100 text-lg font-serif shadow-md hover:bg-gray-700 transition-colors cursor-pointer hidden md:block"
+        className="rounded-lg py-2 px-3 bg-gray-900 text-gray-100 text-lg font-serif shadow-md hover:bg-gray-700 transition-colors duration-300 cursor-pointer hidden md:block"
       >
         旅行を追加
       </button>
