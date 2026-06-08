@@ -60,7 +60,7 @@ const AddSpotForm = ({ tripId }: { tripId: number }) => {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="text-sm text-blue-600 hover:underline cursor-pointer"
+        className="mt-3 text-sm text-blue-600 hover:underline cursor-pointer"
       >
         + スポットを追加
       </button>
