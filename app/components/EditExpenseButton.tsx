@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateExpense } from "@/app/actions";
+import { validationConfig } from "../constants/validation";
 
 const CATEGORIES = [
   { value: "transport", label: "交通" },
@@ -36,27 +37,27 @@ export const EditExpenseButton = ({
     const num = Number(amountVal);
 
     if (!amountVal) {
-      setError("金額は必須です");
+      setError(validationConfig.expense.amountRequired);
       setAmountVal("");
       return;
     }
     if (num < 0) {
-      setError("金額は0以上で入力してください");
+      setError(validationConfig.expense.amountOverZero);
       setAmountVal("");
       return;
     }
     if (num > 9999999) {
-      setError("金額は9,999,999円以下で入力してください");
+      setError(validationConfig.expense.amountLength);
       setAmountVal("");
       return;
     }
     if (!Number.isInteger(num)) {
-      setError("金額は整数で入力してください");
+      setError(validationConfig.expense.amountInteger);
       setAmountVal("");
       return;
     }
     if (memoVal.trim().length > 500) {
-      setError("メモは500文字以内で入力してください");
+      setError(validationConfig.expense.memoLength);
       setMemoVal("");
       return;
     }
@@ -72,7 +73,7 @@ export const EditExpenseButton = ({
       setEditing(false);
       router.refresh();
     } catch {
-      setError("保存に失敗しました");
+      setError(validationConfig.createError);
     } finally {
       setPending(false);
     }

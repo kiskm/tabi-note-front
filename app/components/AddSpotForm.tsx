@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createSpot } from "@/app/actions";
+import { validationConfig } from "../constants/validation";
 
 const AddSpotForm = ({ tripId }: { tripId: number }) => {
   const router = useRouter();
@@ -16,22 +17,22 @@ const AddSpotForm = ({ tripId }: { tripId: number }) => {
   const handleSubmit = async () => {
     // バリデーション
     if (!name.trim()) {
-      setError("スポット名は必須です");
+      setError(validationConfig.spot.spotRequired);
       setName("");
       return;
     }
     if (name.trim().length > 100) {
-      setError("スポット名は100文字以内で入力してください");
+      setError(validationConfig.spot.spotLength);
       setName("");
       return;
     }
     if (category.trim().length > 50) {
-      setError("カテゴリは50文字以内で入力してください");
+      setError(validationConfig.spot.categoryLength);
       setCategory("");
       return;
     }
     if (memo.trim().length > 500) {
-      setError("メモは500文字以内で入力してください");
+      setError(validationConfig.spot.memoLength);
       setMemo("");
       return;
     }
@@ -50,7 +51,7 @@ const AddSpotForm = ({ tripId }: { tripId: number }) => {
       setMemo("");
       router.refresh();
     } catch {
-      setError("追加に失敗しました");
+      setError(validationConfig.createError);
     } finally {
       setPending(false);
     }

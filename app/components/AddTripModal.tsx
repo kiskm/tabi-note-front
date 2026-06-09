@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createTrip } from "@/app/actions";
+import { validationConfig } from "../constants/validation";
 
 const AddTripModal = () => {
   const [open, setOpen] = useState(false);
@@ -16,39 +17,39 @@ const AddTripModal = () => {
   const handleSubmit = async () => {
     // バリデーション
     if (!title.trim()) {
-      setError("タイトルは必須です");
+      setError(validationConfig.trip.titleRequired);
       setTitle("");
       return;
     }
     if (title.trim().length > 100) {
-      setError("タイトルは100文字以内で入力してください");
+      setError(validationConfig.trip.titleLength);
       setTitle("");
       return;
     }
     if (area.trim().length > 100) {
-      setError("エリアは100文字以内で入力してください");
+      setError(validationConfig.trip.areaLength);
       setArea("");
       return;
     }
     if (startDate && endDate && endDate < startDate) {
-      setError("終了日は開始日以降の日付を入力してください");
+      setError(validationConfig.trip.dateSelect);
       setEndDate("");
       return;
     }
     if (budget) {
       const num = Number(budget);
       if (num < 0) {
-        setError("予算は0以上で入力してください");
+        setError(validationConfig.trip.budgetRequired);
         setBudget("");
         return;
       }
       if (num > 9999999) {
-        setError("予算は9,999,999円以下で入力してください");
+        setError(validationConfig.trip.budgetLength);
         setBudget("");
         return;
       }
       if (!Number.isInteger(num)) {
-        setError("予算は整数で入力してください");
+        setError(validationConfig.trip.budgetInteger);
         setBudget("");
         return;
       }
@@ -71,7 +72,7 @@ const AddTripModal = () => {
       setEndDate("");
       setBudget("");
     } catch {
-      setError("追加に失敗しました");
+      setError(validationConfig.createError);
     } finally {
       setPending(false);
     }

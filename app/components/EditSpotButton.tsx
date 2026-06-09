@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateSpot } from "@/app/actions";
+import { validationConfig } from "../constants/validation";
 
 export const EditSpotButton = ({
   spotId,
@@ -28,22 +29,22 @@ export const EditSpotButton = ({
   const handleSave = async () => {
     // バリデーション
     if (!nameVal.trim()) {
-      setError("スポット名は必須です");
+      setError(validationConfig.spot.spotRequired);
       setNameVal("");
       return;
     }
     if (nameVal.trim().length > 100) {
-      setError("スポット名は100文字以内で入力してください");
+      setError(validationConfig.spot.spotLength);
       setNameVal("");
       return;
     }
     if (categoryVal.trim().length > 50) {
-      setError("カテゴリは50文字以内で入力してください");
+      setError(validationConfig.spot.categoryLength);
       setCategoryVal("");
       return;
     }
     if (memoVal.trim().length > 500) {
-      setError("メモは500文字以内で入力してください");
+      setError(validationConfig.spot.memoLength);
       setMemoVal("");
       return;
     }

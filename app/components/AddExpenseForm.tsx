@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createExpense } from "@/app/actions";
+import { validationConfig } from "../constants/validation";
 
 const CATEGORIES = [
   { value: "transport", label: "交通" },
@@ -25,27 +26,27 @@ const AddExpenseForm = ({ tripId }: { tripId: number }) => {
     // バリデーション
     const num = Number(amount);
     if (!amount) {
-      setError("金額は必須です");
+      setError(validationConfig.expense.amountRequired);
       setAmount("");
       return;
     }
     if (num < 0) {
-      setError("金額は0以上で入力してください");
+      setError(validationConfig.expense.amountOverZero);
       setAmount("");
       return;
     }
     if (num > 9999999) {
-      setError("金額は9,999,999円以下で入力してください");
+      setError(validationConfig.expense.amountLength);
       setAmount("");
       return;
     }
     if (!Number.isInteger(num)) {
-      setError("金額は整数で入力してください");
+      setError(validationConfig.expense.amountInteger);
       setAmount("");
       return;
     }
     if (memo.trim().length > 500) {
-      setError("メモは500文字以内で入力してください");
+      setError(validationConfig.expense.memoLength);
       setMemo("");
       return;
     }
@@ -64,7 +65,7 @@ const AddExpenseForm = ({ tripId }: { tripId: number }) => {
       setMemo("");
       router.refresh();
     } catch {
-      setError("追加に失敗しました");
+      setError(validationConfig.createError);
     } finally {
       setPending(false);
     }
