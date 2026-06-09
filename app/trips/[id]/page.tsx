@@ -7,6 +7,7 @@ import { DeleteSpotButton } from "@/app/components/DeleteSpotButton";
 import { EditSpotButton } from "@/app/components/EditSpotButton";
 import SpotCheckButton from "@/app/components/SpotCheckButton";
 import { ExpenseSummary } from "@/app/components/ExpenseSummary";
+import { titleConfig } from "@/app/constants/page";
 
 const TripDetailPage = async ({
   params,
@@ -22,7 +23,7 @@ const TripDetailPage = async ({
     <>
       <div className="flex items-center justify-between pb-6 border-b border-b-gray-400">
         <h1 className="px-4 md:px-8 pt-6 text-3xl font-semibold font-serif text-gray-900">
-          <Link href="/">旅ノート</Link>
+          <Link href="/">{titleConfig.title}</Link>
         </h1>
       </div>
       <div className="mx-auto px-4 py-6 md:px-8">

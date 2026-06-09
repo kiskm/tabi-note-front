@@ -1,6 +1,7 @@
 import { getTrips } from "@/lib/api";
 import TripListTabs from "./components/TripListTabs";
 import AddTripModal from "./components/AddTripModal";
+import { titleConfig } from "./constants/page";
 
 const Page = async () => {
   const trips = await getTrips();
@@ -10,7 +11,7 @@ const Page = async () => {
     <div className="mx-auto px-4 py-6 md:px-8">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-semibold font-serif text-gray-900">
-          旅ノート
+          {titleConfig.title}
         </h1>
         <span className="text-xs text-gray-500">
           達成率{" "}
