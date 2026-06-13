@@ -24,4 +24,5 @@ export const validationConfig = {
     memoLength: "メモは500文字以内で入力してください",
   },
   createError: "追加に失敗しました",
+  saveError: "保存に失敗しました",
 };

@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { createTrip } from "@/app/actions";
-import { validationConfig } from "../constants/validation";
+import { validationConfig } from "@/app/constants/validation";
+import { tripFormConfig } from "@/app/constants/form";
 
 const AddTripModal = () => {
   const [open, setOpen] = useState(false);
@@ -97,30 +98,30 @@ const AddTripModal = () => {
         <div className="fixed inset-0 bg-black/40 flex items-end sm:items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-sm p-6">
             <h2 className="text-base font-semibold text-gray-900 mb-4">
-              旅行を追加
+              {tripFormConfig.title}
             </h2>
             {error && <p className="text-xs text-red-500 mb-3">{error}</p>}
             <div className="flex flex-col gap-3">
               <div>
                 <label className="text-xs text-gray-500 mb-1 block">
-                  タイトル *
+                  {tripFormConfig.title}
                 </label>
                 <input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="例：京都・奈良 紅葉旅"
+                  placeholder={tripFormConfig.tripName}
                   maxLength={100}
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
                 />
               </div>
               <div>
                 <label className="text-xs text-gray-500 mb-1 block">
-                  エリア
+                  {tripFormConfig.area}
                 </label>
                 <input
                   value={area}
                   onChange={(e) => setArea(e.target.value)}
-                  placeholder="例：関西"
+                  placeholder={tripFormConfig.area}
                   maxLength={100}
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
                 />
@@ -128,7 +129,7 @@ const AddTripModal = () => {
               <div className="flex gap-2">
                 <div className="flex-1">
                   <label className="text-xs text-gray-500 mb-1 block">
-                    開始日
+                    {tripFormConfig.startDate}
                   </label>
                   <input
                     type="date"
@@ -139,7 +140,7 @@ const AddTripModal = () => {
                 </div>
                 <div className="flex-1">
                   <label className="text-xs text-gray-500 mb-1 block">
-                    終了日
+                    {tripFormConfig.endDate}
                   </label>
                   <input
                     type="date"
@@ -151,7 +152,7 @@ const AddTripModal = () => {
               </div>
               <div>
                 <label className="text-xs text-gray-500 mb-1 block">
-                  予算（円）
+                  {tripFormConfig.budgetLabel}
                 </label>
                 <input
                   type="number"
@@ -159,7 +160,7 @@ const AddTripModal = () => {
                   step="1"
                   value={budget}
                   onChange={(e) => setBudget(e.target.value)}
-                  placeholder="例：60000"
+                  placeholder={tripFormConfig.budget}
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
                 />
               </div>

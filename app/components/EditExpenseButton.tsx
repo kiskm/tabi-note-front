@@ -3,14 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateExpense } from "@/app/actions";
-import { validationConfig } from "../constants/validation";
-
-const CATEGORIES = [
-  { value: "transport", label: "交通" },
-  { value: "hotel", label: "宿泊" },
-  { value: "food", label: "食事" },
-  { value: "other", label: "その他" },
-];
+import { validationConfig } from "@/app/constants/validation";
+import { CATEGORIES, expenseFormConfig } from "@/app/constants/form";
 
 export const EditExpenseButton = ({
   expenseId,
@@ -73,7 +67,7 @@ export const EditExpenseButton = ({
       setEditing(false);
       router.refresh();
     } catch {
-      setError(validationConfig.createError);
+      setError(validationConfig.saveError);
     } finally {
       setPending(false);
     }
@@ -93,7 +87,9 @@ export const EditExpenseButton = ({
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl w-full max-w-sm p-6 flex flex-col gap-3">
-        <p className="text-sm font-medium text-gray-900">支出を編集</p>
+        <p className="text-sm font-medium text-gray-900">
+          {expenseFormConfig.editHeading}
+        </p>
         {error && <p className="text-xs text-red-500">{error}</p>}
         <select
           value={categoryVal}
@@ -113,13 +109,13 @@ export const EditExpenseButton = ({
           step="1"
           value={amountVal}
           onChange={(e) => setAmountVal(e.target.value)}
-          placeholder="金額（円）*"
+          placeholder={expenseFormConfig.amount}
           className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
         />
         <input
           value={memoVal}
           onChange={(e) => setMemoVal(e.target.value)}
-          placeholder="メモ"
+          placeholder={expenseFormConfig.memo}
           maxLength={500}
           className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
         />
