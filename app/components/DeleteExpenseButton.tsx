@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { deleteExpense } from "@/app/actions";
+import { buttonConfig, confirmConfig } from "@/app/constants/ui";
 
 export const DeleteExpenseButton = ({
   expenseId,
@@ -15,7 +16,7 @@ export const DeleteExpenseButton = ({
   const [pending, setPending] = useState(false);
 
   const handleDelete = async () => {
-    if (!confirm("この支出を削除しますか？")) return;
+    if (!confirm(confirmConfig.deleteExpense)) return;
     setPending(true);
     try {
       await deleteExpense(expenseId, tripId);
@@ -31,7 +32,7 @@ export const DeleteExpenseButton = ({
       disabled={pending}
       className="px-2 text-xs text-gray-400 hover:text-red-500 disabled:opacity-50 cursor-pointer"
     >
-      削除
+      {buttonConfig.delete}
     </button>
   );
 };

@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { updateSpot } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
 import { spotFormConfig } from "@/app/constants/form";
-import { CancelButton } from "./CancelButton";
+import { CancelButton } from "@/app/components/CancelButton";
+import { buttonConfig } from "@/app/constants/ui";
 
 export const EditSpotButton = ({
   spotId,
@@ -74,7 +75,7 @@ export const EditSpotButton = ({
         onClick={() => setEditing(true)}
         className="text-xs text-gray-400 hover:text-blue-500 px-2 cursor-pointer"
       >
-        編集
+        {buttonConfig.edit}
       </button>
     );
   }
@@ -118,7 +119,7 @@ export const EditSpotButton = ({
             disabled={pending}
             className="flex-1 py-2 rounded-lg bg-gray-900 text-white text-sm disabled:opacity-50 hover:bg-gray-700 transition-colors duration-300 cursor-pointer"
           >
-            {pending ? "保存中..." : "保存"}
+            {pending ? buttonConfig.savePending : buttonConfig.save}
           </button>
         </div>
       </div>
