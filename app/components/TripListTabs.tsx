@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Trip } from "@/lib/types";
-import TripCard from "./TripCard";
+import TripCard from "@/app/components/TripCard";
 
 const TripListTabs = ({ trips }: { trips: Trip[] }) => {
   const [activeTab, setActiveTab] = useState<"want" | "done">("want");

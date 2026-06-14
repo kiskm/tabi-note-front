@@ -3,13 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createExpense } from "@/app/actions";
-
-const CATEGORIES = [
-  { value: "transport", label: "交通" },
-  { value: "hotel", label: "宿泊" },
-  { value: "food", label: "食事" },
-  { value: "other", label: "その他" },
-];
+import { validationConfig } from "@/app/constants/validation";
+import { CATEGORIES, expenseFormConfig } from "@/app/constants/form";
 
 const AddExpenseForm = ({ tripId }: { tripId: number }) => {
   // 状態管理
@@ -25,27 +20,27 @@ const AddExpenseForm = ({ tripId }: { tripId: number }) => {
     // バリデーション
     const num = Number(amount);
     if (!amount) {
-      setError("金額は必須です");
+      setError(validationConfig.expense.amountRequired);
       setAmount("");
       return;
     }
     if (num < 0) {
-      setError("金額は0以上で入力してください");
+      setError(validationConfig.expense.amountOverZero);
       setAmount("");
       return;
     }
     if (num > 9999999) {
-      setError("金額は9,999,999円以下で入力してください");
+      setError(validationConfig.expense.amountLength);
       setAmount("");
       return;
     }
     if (!Number.isInteger(num)) {
-      setError("金額は整数で入力してください");
+      setError(validationConfig.expense.amountInteger);
       setAmount("");
       return;
     }
     if (memo.trim().length > 500) {
-      setError("メモは500文字以内で入力してください");
+      setError(validationConfig.expense.memoLength);
       setMemo("");
       return;
     }
@@ -64,7 +59,7 @@ const AddExpenseForm = ({ tripId }: { tripId: number }) => {
       setMemo("");
       router.refresh();
     } catch {
-      setError("追加に失敗しました");
+      setError(validationConfig.createError);
     } finally {
       setPending(false);
     }
@@ -83,7 +78,9 @@ const AddExpenseForm = ({ tripId }: { tripId: number }) => {
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-4 flex flex-col gap-3">
-      <p className="text-sm font-medium text-gray-900">支出を追加</p>
+      <p className="text-sm font-medium text-gray-900">
+        {expenseFormConfig.addHeading}
+      </p>
       {error && <p className="text-xs text-red-500">{error}</p>}
       <select
         value={category}
@@ -103,13 +100,13 @@ const AddExpenseForm = ({ tripId }: { tripId: number }) => {
         step="1"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
-        placeholder="金額（円） *"
+        placeholder={expenseFormConfig.amount}
         className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
       />
       <input
         value={memo}
         onChange={(e) => setMemo(e.target.value)}
-        placeholder="メモ（任意）"
+        placeholder={expenseFormConfig.memo}
         maxLength={500}
         className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
       />

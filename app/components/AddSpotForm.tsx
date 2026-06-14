@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createSpot } from "@/app/actions";
+import { validationConfig } from "@/app/constants/validation";
+import { spotFormConfig } from "@/app/constants/form";
 
 const AddSpotForm = ({ tripId }: { tripId: number }) => {
   const router = useRouter();
@@ -16,22 +18,22 @@ const AddSpotForm = ({ tripId }: { tripId: number }) => {
   const handleSubmit = async () => {
     // バリデーション
     if (!name.trim()) {
-      setError("スポット名は必須です");
+      setError(validationConfig.spot.spotRequired);
       setName("");
       return;
     }
     if (name.trim().length > 100) {
-      setError("スポット名は100文字以内で入力してください");
+      setError(validationConfig.spot.spotLength);
       setName("");
       return;
     }
     if (category.trim().length > 50) {
-      setError("カテゴリは50文字以内で入力してください");
+      setError(validationConfig.spot.categoryLength);
       setCategory("");
       return;
     }
     if (memo.trim().length > 500) {
-      setError("メモは500文字以内で入力してください");
+      setError(validationConfig.spot.memoLength);
       setMemo("");
       return;
     }
@@ -50,7 +52,7 @@ const AddSpotForm = ({ tripId }: { tripId: number }) => {
       setMemo("");
       router.refresh();
     } catch {
-      setError("追加に失敗しました");
+      setError(validationConfig.createError);
     } finally {
       setPending(false);
     }
@@ -69,26 +71,28 @@ const AddSpotForm = ({ tripId }: { tripId: number }) => {
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-4 flex flex-col gap-3">
-      <p className="text-sm font-medium text-gray-900">スポットを追加</p>
+      <p className="text-sm font-medium text-gray-900">
+        {spotFormConfig.addHeading}
+      </p>
       {error && <p className="text-xs text-red-500">{error}</p>}
       <input
         value={name}
         onChange={(e) => setName(e.target.value)}
-        placeholder="スポット名 *"
+        placeholder={spotFormConfig.spotName}
         maxLength={100}
         className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
       />
       <input
         value={category}
         onChange={(e) => setCategory(e.target.value)}
-        placeholder="カテゴリ（例：観光、グルメ）"
+        placeholder={spotFormConfig.category}
         maxLength={50}
         className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
       />
       <input
         value={memo}
         onChange={(e) => setMemo(e.target.value)}
-        placeholder="メモ（任意）"
+        placeholder={spotFormConfig.memo}
         maxLength={500}
         className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
       />
