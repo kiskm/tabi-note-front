@@ -1,7 +1,7 @@
 import { getTrips } from "@/lib/api";
-import TripListTabs from "./components/TripListTabs";
-import AddTripModal from "./components/AddTripModal";
-import { titleConfig } from "./constants/page";
+import TripListTabs from "@/app/components/TripListTabs";
+import AddTripModal from "@/app/components/AddTripModal";
+import { titleConfig } from "@/app/constants/ui";
 
 const Page = async () => {
   const trips = await getTrips();

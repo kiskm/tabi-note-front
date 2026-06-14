@@ -7,7 +7,7 @@ import { DeleteSpotButton } from "@/app/components/DeleteSpotButton";
 import { EditSpotButton } from "@/app/components/EditSpotButton";
 import SpotCheckButton from "@/app/components/SpotCheckButton";
 import { ExpenseSummary } from "@/app/components/ExpenseSummary";
-import { titleConfig } from "@/app/constants/page";
+import { titleConfig } from "@/app/constants/ui";
 
 const TripDetailPage = async ({
   params,
