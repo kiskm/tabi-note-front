@@ -4,7 +4,8 @@ import { useState } from "react";
 import { createTrip } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
 import { tripFormConfig } from "@/app/constants/form";
-import { CancelButton } from "./CancelButton";
+import { CancelButton } from "@/app/components/CancelButton";
+import { buttonConfig, toggleConfig } from "@/app/constants/ui";
 
 const AddTripModal = () => {
   const [open, setOpen] = useState(false);
@@ -86,13 +87,13 @@ const AddTripModal = () => {
         onClick={() => setOpen(true)}
         className="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center text-xl shadow-md hover:bg-gray-700 transition-colors md:hidden"
       >
-        +
+        {toggleConfig.addTripSP}
       </button>
       <button
         onClick={() => setOpen(true)}
         className="rounded-lg py-2 px-3 bg-gray-900 text-gray-100 text-lg font-serif shadow-md hover:bg-gray-700 transition-colors duration-300 cursor-pointer hidden md:block"
       >
-        旅行を追加
+        {toggleConfig.addTripPC}
       </button>
 
       {open && (
@@ -176,7 +177,7 @@ const AddTripModal = () => {
                   disabled={pending}
                   className="flex-1 py-2 rounded-lg bg-gray-900 text-white text-sm hover:bg-gray-700 disabled:opacity-50"
                 >
-                  {pending ? "追加中..." : "追加"}
+                  {pending ? buttonConfig.addPending : buttonConfig.add}
                 </button>
               </div>
             </div>

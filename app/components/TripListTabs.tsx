@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Trip } from "@/lib/types";
 import TripCard from "@/app/components/TripCard";
+import { buttonConfig, textConfig } from "@/app/constants/ui";
 
 const TripListTabs = ({ trips }: { trips: Trip[] }) => {
   const [activeTab, setActiveTab] = useState<"want" | "done">("want");
@@ -21,13 +22,13 @@ const TripListTabs = ({ trips }: { trips: Trip[] }) => {
                 : "text-gray-500"
             }`}
           >
-            {tab === "want" ? "行きたい" : "行った"}
+            {tab === "want" ? buttonConfig.want : buttonConfig.done}
           </button>
         ))}
       </div>
       {filtered.length === 0 ? (
         <p className="text-center text-sm text-gray-400 py-12">
-          旅行が登録されていません
+          {textConfig.noTrip}
         </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

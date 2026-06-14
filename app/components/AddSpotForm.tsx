@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { createSpot } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
 import { spotFormConfig } from "@/app/constants/form";
+import { buttonConfig, toggleConfig } from "@/app/constants/ui";
+import { CancelButton } from "@/app/components/CancelButton";
 
 const AddSpotForm = ({ tripId }: { tripId: number }) => {
   const router = useRouter();
@@ -64,7 +66,7 @@ const AddSpotForm = ({ tripId }: { tripId: number }) => {
         onClick={() => setOpen(true)}
         className="mt-3 text-sm text-blue-600 hover:underline cursor-pointer"
       >
-        + スポットを追加
+        {toggleConfig.addSpot}
       </button>
     );
   }
@@ -97,23 +99,17 @@ const AddSpotForm = ({ tripId }: { tripId: number }) => {
         className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
       />
       <div className="flex gap-2">
-        <button
-          type="button"
-          onClick={() => {
-            setOpen(false);
-            setError(null);
-          }}
-          className="flex-1 py-2 rounded-lg border border-gray-200 text-sm text-gray-600 hover:bg-gray-200 transition-colors duration-300 cursor-pointer"
-        >
-          キャンセル
-        </button>
+        <CancelButton
+          setEditing={() => setOpen(false)}
+          setError={() => setError(null)}
+        />
         <button
           type="button"
           onClick={handleSubmit}
           disabled={pending}
           className="flex-1 py-2 rounded-lg bg-gray-900 text-white text-sm disabled:opacity-50 hover:bg-gray-700 transition-colors duration-300 cursor-pointer"
         >
-          {pending ? "追加中..." : "追加"}
+          {pending ? buttonConfig.addPending : buttonConfig.add}
         </button>
       </div>
     </div>

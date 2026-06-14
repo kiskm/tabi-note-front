@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { updateTripStatus, deleteTrip } from "@/app/actions";
 import type { TripStatus } from "@/lib/types";
+import { buttonConfig, confirmConfig } from "@/app/constants/ui";
 
 const TripActions = ({
   tripId,
@@ -26,7 +27,7 @@ const TripActions = ({
   };
 
   const handleDelete = async () => {
-    if (!confirm("この旅行を削除しますか？")) return;
+    if (!confirm(confirmConfig.deleteTrip)) return;
     setPending(true);
     try {
       await deleteTrip(tripId);
@@ -47,14 +48,14 @@ const TripActions = ({
             : "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
         }`}
       >
-        {status === "done" ? "行った" : "行きたい"}
+        {status === "done" ? buttonConfig.done : buttonConfig.want}
       </button>
       <button
         onClick={handleDelete}
         disabled={pending}
         className="text-xs px-3 py-1.5 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 disabled:opacity-50 transition-colors duration-300 cursor-pointer"
       >
-        削除
+        {buttonConfig.delete}
       </button>
     </div>
   );

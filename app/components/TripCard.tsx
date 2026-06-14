@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import type { Trip } from "@/lib/types";
+import { buttonConfig } from "@/app/constants/ui";
 
 const TripCard = ({ trip }: { trip: Trip }) => {
   const total = trip.spots.length;
@@ -22,7 +23,7 @@ const TripCard = ({ trip }: { trip: Trip }) => {
                 : "bg-blue-50 text-blue-700"
             }`}
           >
-            {trip.status === "done" ? "行った" : "行きたい"}
+            {trip.status === "done" ? buttonConfig.done : buttonConfig.want}
           </span>
         </div>
         {trip.area || trip.startDate ? (
