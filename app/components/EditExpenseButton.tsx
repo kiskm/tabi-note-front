@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { updateExpense } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
 import { CATEGORIES, expenseFormConfig } from "@/app/constants/form";
+import { CancelButton } from "./CancelButton";
 
 export const EditExpenseButton = ({
   expenseId,
@@ -120,16 +121,10 @@ export const EditExpenseButton = ({
           className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
         />
         <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={() => {
-              setEditing(false);
-              setError(null);
-            }}
-            className="flex-1 py-2 rounded-lg border border-gray-200 text-sm text-gray-600 hover:bg-gray-200 transition-colors duration-300 cursor-pointer"
-          >
-            キャンセル
-          </button>
+          <CancelButton
+            setEditing={() => setEditing(false)}
+            setError={() => setError(null)}
+          />
           <button
             type="button"
             onClick={handleSave}
