@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createTrip } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
 import { tripFormConfig } from "@/app/constants/form";
+import { CancelButton } from "./CancelButton";
 
 const AddTripModal = () => {
   const [open, setOpen] = useState(false);
@@ -165,16 +166,10 @@ const AddTripModal = () => {
                 />
               </div>
               <div className="flex gap-2 mt-1">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOpen(false);
-                    setError(null);
-                  }}
-                  className="flex-1 py-2 rounded-lg border border-gray-200 text-sm text-gray-600 hover:bg-gray-50"
-                >
-                  キャンセル
-                </button>
+                <CancelButton
+                  setEditing={() => setOpen(false)}
+                  setError={() => setError(null)}
+                />
                 <button
                   type="button"
                   onClick={handleSubmit}
