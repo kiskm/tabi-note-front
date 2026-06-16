@@ -18,6 +18,7 @@ export const buttonConfig = {
   delete: "削除",
   want: "行きたい",
   done: "行った",
+  logout: "ログアウト",
 };
 
 export const toggleConfig = {
