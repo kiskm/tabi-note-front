@@ -2,6 +2,7 @@ import { getTrips } from "@/lib/api";
 import TripListTabs from "@/app/components/TripListTabs";
 import AddTripModal from "@/app/components/AddTripModal";
 import { titleConfig } from "@/app/constants/ui";
+import { LogoutButton } from "@/app/components/LogoutButton";
 
 const Page = async () => {
   const trips = await getTrips();
@@ -13,12 +14,13 @@ const Page = async () => {
         <h1 className="text-3xl font-semibold font-serif text-gray-900">
           {titleConfig.title}
         </h1>
-        <span className="text-xs text-gray-500">
-          達成率{" "}
-          {trips.length > 0 ? Math.round((doneCount / trips.length) * 100) : 0}%
-          · {doneCount} / {trips.length}件
-        </span>
+        <LogoutButton />
       </div>
+      <span className="my-2 flex text-xs text-gray-500 justify-end">
+        達成率{" "}
+        {trips.length > 0 ? Math.round((doneCount / trips.length) * 100) : 0}% ·{" "}
+        {doneCount} / {trips.length}件
+      </span>
       <div className="flex justify-end">
         <div className="mb-4 mr-1 hidden md:block">
           <AddTripModal />
