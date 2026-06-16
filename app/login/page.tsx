@@ -1,6 +1,5 @@
 import { titleConfig } from "@/app/constants/ui";
 import LoginForm from "@/app/components/LoginForm";
-import Link from "next/link";
 
 const LoginPage = async () => {
   return (
@@ -11,12 +10,8 @@ const LoginPage = async () => {
         </h1>
       </div>
       <div className="flex justify-end">
-        <div className="mb-4 mr-1 hidden md:block">
-          <h1>ログイン</h1>
+        <div className="mb-4 mr-1">
           <LoginForm />
-          <button>
-            <Link href={`/register`}>新規登録</Link>
-          </button>
         </div>
       </div>
     </div>

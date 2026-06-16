@@ -1,5 +1,5 @@
 import { titleConfig } from "@/app/constants/ui";
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm from "@/app/components/RegisterForm";
 
 const RegisterPage = async () => {
   return (
@@ -10,7 +10,7 @@ const RegisterPage = async () => {
         </h1>
       </div>
       <div className="flex justify-end">
-        <div className="mb-4 mr-1 hidden md:block">
+        <div className="mb-4 mr-1">
           <h1>ユーザ登録</h1>
           <RegisterForm />
         </div>

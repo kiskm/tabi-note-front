@@ -2,7 +2,7 @@ import { getTrips } from "@/lib/api";
 import TripListTabs from "@/app/components/TripListTabs";
 import AddTripModal from "@/app/components/AddTripModal";
 import { titleConfig } from "@/app/constants/ui";
-import { LogoutButton } from "./components/LogoutButton";
+import { LogoutButton } from "@/app/components/LogoutButton";
 
 const Page = async () => {
   const trips = await getTrips();
