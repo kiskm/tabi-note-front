@@ -14,7 +14,7 @@ export const getTrips = async (): Promise<Trip[]> => {
 };
 
 // 旅行の一件表示
-export const getTrip = async (id: number): Promise<TripDetail> => {
+export const getTrip = async (id: string): Promise<TripDetail> => {
   const res = await fetch(`${API_BASE}/trips/${id}`, {
     cache: "no-store",
     headers: await getAuthHeader(),

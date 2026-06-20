@@ -10,7 +10,7 @@ const TripActions = ({
   tripId,
   status,
 }: {
-  tripId: number;
+  tripId: string;
   status: TripStatus;
 }) => {
   const router = useRouter();

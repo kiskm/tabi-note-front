@@ -10,7 +10,7 @@ const SpotCheckButton = ({
   checked,
 }: {
   spotId: number;
-  tripId: number;
+  tripId: string;
   checked: boolean;
 }) => {
   const router = useRouter();

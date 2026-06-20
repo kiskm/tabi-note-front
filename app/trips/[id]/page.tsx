@@ -15,7 +15,7 @@ const TripDetailPage = async ({
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await params;
-  const trip = await getTrip(Number(id));
+  const trip = await getTrip(id);
 
   const dateRange = [trip.startDate, trip.endDate].filter(Boolean).join(" 〜 ");
 
