@@ -29,7 +29,7 @@ export const createTrip = async (formData: FormData) => {
   refresh();
 };
 
-export const updateTripStatus = async (id: number, status: "want" | "done") => {
+export const updateTripStatus = async (id: string, status: "want" | "done") => {
   const res = await fetch(`${API_BASE}/trips/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json", ...(await getAuthHeader()) },
@@ -40,7 +40,7 @@ export const updateTripStatus = async (id: number, status: "want" | "done") => {
 };
 
 // スポットを追加
-export const createSpot = async (tripId: number, formData: FormData) => {
+export const createSpot = async (tripId: string, formData: FormData) => {
   const body = {
     name: formData.get("name"),
     category: formData.get("category") || undefined,
@@ -56,7 +56,7 @@ export const createSpot = async (tripId: number, formData: FormData) => {
 };
 
 // 支出を追加
-export const createExpense = async (tripId: number, formData: FormData) => {
+export const createExpense = async (tripId: string, formData: FormData) => {
   const body = {
     category: formData.get("category"),
     amount: Number(formData.get("amount")),
@@ -74,7 +74,7 @@ export const createExpense = async (tripId: number, formData: FormData) => {
 // スポットを更新
 export const updateSpot = async (
   spotId: number,
-  tripId: number,
+  tripId: string,
   data: { name?: string; category?: string; memo?: string },
 ) => {
   const res = await fetch(`${API_BASE}/spots/${spotId}`, {
@@ -89,7 +89,7 @@ export const updateSpot = async (
 // 支出を更新
 export const updateExpense = async (
   expenseId: number,
-  tripId: number,
+  tripId: string,
   data: { category?: string; amount?: number; memo?: string },
 ) => {
   const res = await fetch(`${API_BASE}/expenses/${expenseId}`, {
@@ -102,7 +102,7 @@ export const updateExpense = async (
 };
 
 // 旅行を削除
-export const deleteTrip = async (id: number) => {
+export const deleteTrip = async (id: string) => {
   const res = await fetch(`${API_BASE}/trips/${id}`, {
     method: "DELETE",
     headers: await getAuthHeader(),
@@ -112,7 +112,7 @@ export const deleteTrip = async (id: number) => {
 };
 
 // スポットチェックの切り替え
-export const toggleSpotChecked = async (spotId: number, tripId: number) => {
+export const toggleSpotChecked = async (spotId: number, tripId: string) => {
   const res = await fetch(`${API_BASE}/spots/${spotId}/check`, {
     method: "PATCH",
     headers: await getAuthHeader(),
@@ -122,7 +122,7 @@ export const toggleSpotChecked = async (spotId: number, tripId: number) => {
 };
 
 // スポットを削除
-export const deleteSpot = async (spotId: number, tripId: number) => {
+export const deleteSpot = async (spotId: number, tripId: string) => {
   const res = await fetch(`${API_BASE}/spots/${spotId}`, {
     method: "DELETE",
     headers: await getAuthHeader(),
@@ -132,7 +132,7 @@ export const deleteSpot = async (spotId: number, tripId: number) => {
 };
 
 // 支出を削除
-export const deleteExpense = async (expenseId: number, tripId: number) => {
+export const deleteExpense = async (expenseId: number, tripId: string) => {
   const res = await fetch(`${API_BASE}/expenses/${expenseId}`, {
     method: "DELETE",
     headers: await getAuthHeader(),

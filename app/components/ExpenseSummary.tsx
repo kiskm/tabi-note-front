@@ -32,7 +32,7 @@ export const ExpenseSummary = ({
 }: {
   expenses: Expense[];
   budget: number | null;
-  tripId: number;
+  tripId: string;
 }) => {
   const total = expenses.reduce((sum, e) => sum + e.amount, 0);
   const budgetPercent = budget

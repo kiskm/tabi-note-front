@@ -8,7 +8,7 @@ import { CATEGORIES, expenseFormConfig } from "@/app/constants/form";
 import { CancelButton } from "@/app/components/CancelButton";
 import { buttonConfig, toggleConfig } from "@/app/constants/ui";
 
-const AddExpenseForm = ({ tripId }: { tripId: number }) => {
+const AddExpenseForm = ({ tripId }: { tripId: string }) => {
   // 状態管理
   const router = useRouter();
   const [open, setOpen] = useState(false);

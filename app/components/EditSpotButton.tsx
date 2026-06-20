@@ -16,7 +16,7 @@ export const EditSpotButton = ({
   memo,
 }: {
   spotId: number;
-  tripId: number;
+  tripId: string;
   name: string;
   category: string | null;
   memo: string | null;

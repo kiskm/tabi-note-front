@@ -16,7 +16,7 @@ export const EditExpenseButton = ({
   memo,
 }: {
   expenseId: number;
-  tripId: number;
+  tripId: string;
   category: string;
   amount: number;
   memo: string | null;

@@ -8,7 +8,7 @@ import { spotFormConfig } from "@/app/constants/form";
 import { buttonConfig, toggleConfig } from "@/app/constants/ui";
 import { CancelButton } from "@/app/components/CancelButton";
 
-const AddSpotForm = ({ tripId }: { tripId: number }) => {
+const AddSpotForm = ({ tripId }: { tripId: string }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState(false);

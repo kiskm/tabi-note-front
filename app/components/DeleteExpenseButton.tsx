@@ -10,7 +10,7 @@ export const DeleteExpenseButton = ({
   tripId,
 }: {
   expenseId: number;
-  tripId: number;
+  tripId: string;
 }) => {
   const router = useRouter();
   const [pending, setPending] = useState(false);

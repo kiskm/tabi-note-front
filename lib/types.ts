@@ -10,7 +10,7 @@ export type Spot = {
   lng: number | null;
   imageUrl: string | null;
   checked: boolean;
-  tripId: number;
+  tripId: string;
 };
 
 export type Expense = {
@@ -18,11 +18,11 @@ export type Expense = {
   category: ExpenseCategory;
   amount: number;
   memo: string | null;
-  tripId: number;
+  tripId: string;
 };
 
 export type Trip = {
-  id: number;
+  id: string;
   title: string;
   startDate: string | null;
   endDate: string | null;
