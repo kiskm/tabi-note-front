@@ -19,6 +19,7 @@ export const buttonConfig = {
   want: "行きたい",
   done: "行った",
   logout: "ログアウト",
+  backToTop: "トップへ戻る",
 };
 
 export const toggleConfig = {
@@ -30,4 +31,6 @@ export const toggleConfig = {
 
 export const textConfig = {
   noTrip: "旅行が登録されていません",
+  notFoundTrip: "この旅行は見つかりませんでした",
+  notFoundTripTips: "削除されたか、アクセス権がない可能性があります",
 };

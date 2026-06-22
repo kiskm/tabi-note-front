@@ -1,5 +1,6 @@
 import type { Trip, TripDetail } from "@/lib/types";
 import { getAuthHeader } from "@/lib/auth";
+import { notFound } from "next/navigation";
 
 const API_BASE = process.env.API_URL ?? "http://localhost:8000";
 
@@ -9,6 +10,9 @@ export const getTrips = async (): Promise<Trip[]> => {
     cache: "no-store",
     headers: await getAuthHeader(),
   });
+  if (res.status === 404) {
+    notFound();
+  }
   if (!res.ok) throw new Error("Failed to fetch trips");
   return res.json();
 };
@@ -19,6 +23,9 @@ export const getTrip = async (id: string): Promise<TripDetail> => {
     cache: "no-store",
     headers: await getAuthHeader(),
   });
+  if (res.status === 404) {
+    notFound();
+  }
   if (!res.ok) throw new Error("Failed to fetch trip");
   return res.json();
 };
