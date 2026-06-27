@@ -22,6 +22,7 @@ export const EditExpenseButton = ({
   memo: string | null;
 }) => {
   const router = useRouter();
+  // 状態管理
   const [editing, setEditing] = useState(false);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
