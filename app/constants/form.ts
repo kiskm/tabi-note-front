@@ -42,3 +42,9 @@ export const expenseFormConfig = {
   amount: "金額（円） *",
   memo: "メモ（任意）",
 };
+
+export const userFormConfig = {
+  userName: "ユーザ名",
+  email: "メールアドレス",
+  password: "パスワード",
+};
