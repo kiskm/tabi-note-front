@@ -8,6 +8,7 @@ import { EditSpotButton } from "@/app/components/EditSpotButton";
 import SpotCheckButton from "@/app/components/SpotCheckButton";
 import { ExpenseSummary } from "@/app/components/ExpenseSummary";
 import { titleConfig } from "@/app/constants/ui";
+import TripAction from "@/app/components/TripAction";
 
 const TripDetailPage = async ({
   params,
@@ -21,6 +22,31 @@ const TripDetailPage = async ({
 
   return (
     <>
+      <div className="bg-stone-50 min-h-screen">
+        <div className="max-w-full mx-auto p-4 md:p-5">
+          <div className="flex items-center justify-between pb-3 mb-4 border-b border-stone-200">
+            <span className="font-serif text-xl text-stone-900">
+              <Link href="/">{titleConfig.title}</Link>
+            </span>
+            <span className="text-[13px] text-stone-400">マイ旅程</span>
+          </div>
+          <div className="bg-white border border-stone-200 rounded-xl overflow-hidden">
+            <div className="relative h-24 bg-orange-50 flex items-end px-4 py-3.5">
+              <span className="absolute top-3 right-3.5 bg-orange-200 text-orange-900 text-xs font-medium px-3 py-1 rounded-full cursor-pointer">
+                <TripAction tripId={trip.id} status={trip.status} />
+              </span>
+              <div>
+                <div className="font-serif text-xl text-orange-950 leading-tight">
+                  {trip.title}
+                </div>
+                <div className="text-sm text-orange-800 mt-0.5">
+                  {[dateRange, trip.area].filter(Boolean).join(" · ")}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="flex items-center justify-between pb-6 border-b border-b-gray-400">
         <h1 className="px-4 md:px-8 pt-6 text-3xl font-semibold font-serif text-gray-900">
           <Link href="/">{titleConfig.title}</Link>
