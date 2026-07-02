@@ -3,6 +3,8 @@
 import { useActionState, useEffect } from "react";
 import { register } from "@/app/actions";
 import Link from "next/link";
+import { buttonConfig, headingConfig, textConfig } from "@/app/constants/ui";
+import { userFormConfig } from "@/app/constants/form";
 
 const RegisterForm = () => {
   const [state, formAction, pending] = useActionState(register, null);
@@ -25,10 +27,10 @@ const RegisterForm = () => {
         <form action={formAction}>
           <div className="flex flex-col gap-3">
             <h1 className="flex text-xl font-serif justify-center">
-              ユーザ登録
+              {headingConfig.register}
             </h1>
             <div className="flex flex-col">
-              <label htmlFor="username">ユーザー名</label>
+              <label htmlFor="username">{userFormConfig.userName}</label>
               <input
                 id="username"
                 name="username"
@@ -39,7 +41,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="email">メールアドレス</label>
+              <label htmlFor="email">{userFormConfig.email}</label>
               <input
                 id="email"
                 name="email"
@@ -50,7 +52,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="password">パスワード</label>
+              <label htmlFor="password">{userFormConfig.password}</label>
               <input
                 id="password"
                 name="password"
@@ -66,19 +68,21 @@ const RegisterForm = () => {
                 disabled={pending}
                 className="rounded-lg py-2 px-3 bg-gray-900 text-gray-100 text-lg font-serif shadow-md hover:bg-gray-700 transition-colors duration-300 cursor-pointer"
               >
-                {pending ? "登録中..." : "登録する"}
+                {pending ? buttonConfig.registerPending : buttonConfig.register}
               </button>
             </div>
             {state?.error && (
               <div className="error-message">
-                <p>エラーが発生しました：{state.error}</p>
+                <p>
+                  {textConfig.error}：{state.error}
+                </p>
               </div>
             )}
           </div>
         </form>
         <div className="mt-2 flex justify-center">
           <button className="rounded-lg py-2 px-3 border border-gray-200 text-lg font-serif text-gray-600 hover:bg-gray-50 transition-colors duration-300 cursor-pointer">
-            <Link href={`/login`}>ログインへ戻る</Link>
+            <Link href={`/login`}>{buttonConfig.backToLogin}</Link>
           </button>
         </div>
       </div>

@@ -18,7 +18,14 @@ export const buttonConfig = {
   delete: "削除",
   want: "行きたい",
   done: "行った",
+  createUser: "新規登録",
+  register: "登録",
+  registerPending: "登録中...",
+  login: "ログイン",
+  loginPending: "ログイン中...",
   logout: "ログアウト",
+  backToTop: "トップへ戻る",
+  backToLogin: "ログインへ戻る",
 };
 
 export const toggleConfig = {
@@ -30,4 +37,12 @@ export const toggleConfig = {
 
 export const textConfig = {
   noTrip: "旅行が登録されていません",
+  notFoundTrip: "この旅行は見つかりませんでした",
+  notFoundTripTips: "削除されたか、アクセス権がない可能性があります",
+  error: "エラーが発生しました",
+};
+
+export const headingConfig = {
+  login: "ログイン",
+  register: "ユーザ登録",
 };
