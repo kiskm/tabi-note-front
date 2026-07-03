@@ -16,6 +16,7 @@ export const buttonConfig = {
   edit: "編集",
   cancel: "キャンセル",
   delete: "削除",
+  tripDelete: "旅行を削除",
   want: "行きたい",
   done: "行った",
   createUser: "新規登録",
@@ -40,6 +41,12 @@ export const textConfig = {
   notFoundTrip: "この旅行は見つかりませんでした",
   notFoundTripTips: "削除されたか、アクセス権がない可能性があります",
   error: "エラーが発生しました",
+  spot: "スポット",
+  expenses: "費用",
+  nights: "泊数",
+  noSpotSP: "行きたい場所を追加しましょう。",
+  noSpotPC: "まだスポットがありません。行きたい場所を追加しましょう。",
+  noExpenses: "支出を記録すると合計が自動集計されます。",
 };
 
 export const headingConfig = {

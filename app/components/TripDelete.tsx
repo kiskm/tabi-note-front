@@ -3,10 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { deleteTrip } from "@/app/actions";
-import type { TripStatus } from "@/lib/types";
 import { buttonConfig, confirmConfig } from "@/app/constants/ui";
 
-const TripDelete = ({ tripId }: { tripId: string; status: TripStatus }) => {
+const TripDelete = ({ tripId }: { tripId: string }) => {
   const router = useRouter();
   const [pending, setPending] = useState(false);
 
@@ -25,9 +24,9 @@ const TripDelete = ({ tripId }: { tripId: string; status: TripStatus }) => {
     <button
       onClick={handleDelete}
       disabled={pending}
-      className="text-xs px-3 py-1.5 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 disabled:opacity-50 transition-colors duration-300 cursor-pointer"
+      className="text-sm mr-4 px-3 py-1.5 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 disabled:opacity-50 transition-colors duration-300 cursor-pointer"
     >
-      {buttonConfig.delete}
+      {buttonConfig.tripDelete}
     </button>
   );
 };

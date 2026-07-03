@@ -65,7 +65,8 @@ const AddSpotForm = ({ tripId }: { tripId: string }) => {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="mt-3 text-sm text-blue-600 hover:underline cursor-pointer"
+        className="border border-orange-600 text-orange-800
+                       px-3 py-1.5 rounded-lg text-sm cursor-pointer hover:bg-gray-50 duration-300"
       >
         {toggleConfig.addSpot}
       </button>

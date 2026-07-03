@@ -29,6 +29,7 @@ export type Trip = {
   area: string | null;
   status: TripStatus;
   budget: number | null;
+  userId: string;
   spots: Spot[];
 };
 

@@ -27,8 +27,14 @@ const TripAction = ({
   };
 
   return (
-    <button onClick={handleStatusToggle} disabled={pending}>
-      {status === "done" ? buttonConfig.done : buttonConfig.want}
+    <button
+      onClick={handleStatusToggle}
+      disabled={pending}
+      className="cursor-pointer"
+    >
+      <span className="absolute top-3 right-3.5 bg-orange-200 text-orange-900 text-xs font-medium px-3 py-1 rounded-full hover:bg-orange-300 duration-300">
+        {status === "done" ? buttonConfig.done : buttonConfig.want}
+      </span>
     </button>
   );
 };
