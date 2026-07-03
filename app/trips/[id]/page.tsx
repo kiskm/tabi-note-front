@@ -44,6 +44,20 @@ const TripDetailPage = async ({
                 </div>
               </div>
             </div>
+            <div className="flex border-b border-stone-200">
+              <div className="flex-1 text-center py-3.5 px-4 border-r border-stone-200">
+                <div className="text-2xl font-medium text-stone-900">0</div>
+                <div className="text-xs text-stone-400 mt-0.5">スポット</div>
+              </div>
+              <div className="flex-1 text-center py-3.5 px-4 border-r border-stone-200">
+                <div className="text-2xl font-medium text-stone-900">0</div>
+                <div className="text-xs text-stone-400 mt-0.5">費用</div>
+              </div>
+              <div className="flex-1 text-center py-3.5 px-4 border-stone-200">
+                <div className="text-2xl font-medium text-stone-900">0</div>
+                <div className="text-xs text-stone-400 mt-0.5">泊数</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
