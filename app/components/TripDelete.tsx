@@ -1,33 +1,43 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { startTransition, useActionState } from "react";
 import { deleteTrip } from "@/app/actions";
 import { buttonConfig, confirmConfig } from "@/app/constants/ui";
+import { SubmitState } from "@/lib/types";
+import { validationConfig } from "../constants/validation";
 
 const TripDelete = ({ tripId }: { tripId: string }) => {
   const router = useRouter();
-  const [pending, setPending] = useState(false);
+  const [state, action, pending] = useActionState<SubmitState>(
+    async (_prevState) => {
+      try {
+        await deleteTrip(tripId);
+        router.push("/");
+        return { error: null };
+      } catch {
+        return { error: validationConfig.deleteError };
+      }
+    },
+    { error: null },
+  );
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (!confirm(confirmConfig.deleteTrip)) return;
-    setPending(true);
-    try {
-      await deleteTrip(tripId);
-      router.push("/");
-    } finally {
-      setPending(false);
-    }
+    startTransition(action);
   };
 
   return (
-    <button
-      onClick={handleDelete}
-      disabled={pending}
-      className="text-sm mr-4 px-3 py-1.5 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 disabled:opacity-50 transition-colors duration-300 cursor-pointer"
-    >
-      {buttonConfig.tripDelete}
-    </button>
+    <>
+      <button
+        onClick={handleDelete}
+        disabled={pending}
+        className="text-sm mr-4 px-3 py-1.5 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 disabled:opacity-50 transition-colors duration-300 cursor-pointer"
+      >
+        {buttonConfig.tripDelete}
+      </button>
+      {state.error && <p className="text-xs text-red-500">{state.error}</p>}
+    </>
   );
 };
 

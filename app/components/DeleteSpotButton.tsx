@@ -4,9 +4,8 @@ import { useRouter } from "next/navigation";
 import { startTransition, useActionState } from "react";
 import { deleteSpot } from "@/app/actions";
 import { buttonConfig, confirmConfig } from "@/app/constants/ui";
-import { validationConfig } from "../constants/validation";
-
-type DeleteState = { error: string | null };
+import { validationConfig } from "@/app/constants/validation";
+import { SubmitState } from "@/lib/types";
 
 export const DeleteSpotButton = ({
   spotId,
@@ -16,14 +15,14 @@ export const DeleteSpotButton = ({
   tripId: string;
 }) => {
   const router = useRouter();
-  const [state, action, pending] = useActionState<DeleteState>(
+  const [state, action, pending] = useActionState<SubmitState>(
     async (_prevState) => {
       try {
         await deleteSpot(spotId, tripId);
         router.refresh();
         return { error: null };
       } catch {
-        return { error: validationConfig.spot.deleteError };
+        return { error: validationConfig.deleteError };
       }
     },
     { error: null },

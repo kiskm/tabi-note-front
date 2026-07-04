@@ -1,9 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { startTransition, useActionState } from "react";
 import { deleteExpense } from "@/app/actions";
 import { buttonConfig, confirmConfig } from "@/app/constants/ui";
+import { validationConfig } from "@/app/constants/validation";
+import { SubmitState } from "@/lib/types";
 
 export const DeleteExpenseButton = ({
   expenseId,
@@ -13,26 +15,34 @@ export const DeleteExpenseButton = ({
   tripId: string;
 }) => {
   const router = useRouter();
-  const [pending, setPending] = useState(false);
+  const [state, action, pending] = useActionState<SubmitState>(
+    async (_prevState) => {
+      try {
+        await deleteExpense(expenseId, tripId);
+        router.refresh();
+        return { error: null };
+      } catch {
+        return { error: validationConfig.deleteError };
+      }
+    },
+    { error: null },
+  );
 
   const handleDelete = async () => {
     if (!confirm(confirmConfig.deleteExpense)) return;
-    setPending(true);
-    try {
-      await deleteExpense(expenseId, tripId);
-      router.refresh();
-    } finally {
-      setPending(false);
-    }
+    startTransition(action);
   };
 
   return (
-    <button
-      onClick={handleDelete}
-      disabled={pending}
-      className="px-2 text-xs text-gray-400 hover:text-red-500 disabled:opacity-50 cursor-pointer"
-    >
-      {buttonConfig.delete}
-    </button>
+    <>
+      <button
+        onClick={handleDelete}
+        disabled={pending}
+        className="px-2 text-xs text-gray-400 hover:text-red-500 disabled:opacity-50 cursor-pointer"
+      >
+        {buttonConfig.delete}
+      </button>
+      {state.error && <p className="text-xs text-red-500">{state.error}</p>}
+    </>
   );
 };

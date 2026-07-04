@@ -37,3 +37,5 @@ export type TripDetail = Trip & {
   spots: Spot[];
   expenses: Expense[];
 };
+
+export type SubmitState = { error: string | null };
