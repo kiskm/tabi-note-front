@@ -15,6 +15,7 @@ export const validationConfig = {
     categoryLength: "カテゴリは50文字以内で入力してください",
     memoLength: "メモは500文字以内で入力してください",
     createError: "追加に失敗しました",
+    deleteError: "削除に失敗しました",
   },
   expense: {
     amountRequired: "金額は必須です",
