@@ -49,15 +49,16 @@ const TripDetailPage = async ({
           {/* 詳細カード */}
           <div className="bg-white border border-stone-200 rounded-xl overflow-hidden">
             {/* カラーヘッダー */}
-            <div className="relative h-24 bg-orange-50 flex items-end px-4 py-3.5">
+            <div className="relative h-auto bg-orange-50 flex items-end px-4 py-3.5">
               <TripAction tripId={trip.id} status={trip.status} />
               <div>
                 {/* 旅行タイトル */}
                 <div className="font-serif text-xl text-orange-950 leading-tight">
                   {trip.title}
                 </div>
+                <p>{trip.area}</p>
                 <div className="text-sm text-orange-800 mt-0.5">
-                  {[dateRange, trip.area].filter(Boolean).join(" · ")}
+                  {dateRange}
                 </div>
               </div>
             </div>
@@ -141,7 +142,7 @@ const TripDetailPage = async ({
                       </div>
                     ))}
                   </div>
-                  <div className="flex mt-1 justify-end">
+                  <div className="mt-1">
                     <AddSpotForm tripId={trip.id} />
                   </div>
                 </>
@@ -182,7 +183,7 @@ const TripDetailPage = async ({
                     budget={trip.budget}
                     tripId={trip.id}
                   />
-                  <div className="flex mt-1 justify-end">
+                  <div className="mt-1">
                     <AddExpenseForm tripId={trip.id} />
                   </div>
                 </>
