@@ -6,6 +6,7 @@ import { updateTripStatus } from "@/app/actions";
 import type { TripStatus } from "@/lib/types";
 import { buttonConfig } from "@/app/constants/ui";
 import { validationConfig } from "../constants/validation";
+import { LoadingOverlay } from "@/app/components/LoadingOverlay";
 
 const TripAction = ({
   tripId,
@@ -49,6 +50,7 @@ const TripAction = ({
           {status === "done" ? buttonConfig.done : buttonConfig.want}
         </span>
       </button>
+      <LoadingOverlay visible={pending} />
     </>
   );
 };

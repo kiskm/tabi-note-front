@@ -6,6 +6,7 @@ import { deleteExpense } from "@/app/actions";
 import { buttonConfig, confirmConfig } from "@/app/constants/ui";
 import { validationConfig } from "@/app/constants/validation";
 import { SubmitState } from "@/lib/types";
+import { LoadingOverlay } from "@/app/components/LoadingOverlay";
 
 export const DeleteExpenseButton = ({
   expenseId,
@@ -43,6 +44,7 @@ export const DeleteExpenseButton = ({
         {buttonConfig.delete}
       </button>
       {state.error && <p className="text-xs text-red-500">{state.error}</p>}
+      <LoadingOverlay visible={pending} />
     </>
   );
 };

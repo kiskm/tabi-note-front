@@ -6,6 +6,7 @@ import { validationConfig } from "@/app/constants/validation";
 import { tripFormConfig } from "@/app/constants/form";
 import { CancelButton } from "@/app/components/CancelButton";
 import { buttonConfig, toggleConfig } from "@/app/constants/ui";
+import { LoadingOverlay } from "@/app/components/LoadingOverlay";
 
 const AddTripModal = () => {
   // 状態管理
@@ -195,6 +196,7 @@ const AddTripModal = () => {
           </div>
         </div>
       )}
+      <LoadingOverlay visible={pending} />
     </>
   );
 };

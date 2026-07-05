@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { startTransition, useActionState } from "react";
 import { toggleSpotChecked } from "@/app/actions";
 import { validationConfig } from "../constants/validation";
+import { LoadingOverlay } from "@/app/components/LoadingOverlay";
 
 const SpotCheckButton = ({
   spotId,
@@ -51,6 +52,7 @@ const SpotCheckButton = ({
       >
         ✓
       </button>
+      <LoadingOverlay visible={pending} />
     </>
   );
 };

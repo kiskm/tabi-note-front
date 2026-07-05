@@ -7,6 +7,7 @@ import { validationConfig } from "@/app/constants/validation";
 import { CATEGORIES, expenseFormConfig } from "@/app/constants/form";
 import { CancelButton } from "@/app/components/CancelButton";
 import { buttonConfig } from "@/app/constants/ui";
+import { LoadingOverlay } from "@/app/components/LoadingOverlay";
 
 export const EditExpenseButton = ({
   expenseId,
@@ -94,57 +95,60 @@ export const EditExpenseButton = ({
   }
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl w-full max-w-sm p-6 flex flex-col gap-3">
-        <p className="text-sm font-medium text-gray-900">
-          {expenseFormConfig.editHeading}
-        </p>
-        {(error || state.error) && (
-          <p className="text-xs text-red-500 mb-3">{error || state.error}</p>
-        )}
-        <select
-          value={categoryVal}
-          onChange={(e) => setCategoryVal(e.target.value)}
-          className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400 bg-white"
-        >
-          {CATEGORIES.map((c) => (
-            <option key={c.value} value={c.value}>
-              {c.label}
-            </option>
-          ))}
-        </select>
-        <input
-          type="number"
-          min="0"
-          max="9999999"
-          step="1"
-          value={amountVal}
-          onChange={(e) => setAmountVal(e.target.value)}
-          placeholder={expenseFormConfig.amount}
-          className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
-        />
-        <input
-          value={memoVal}
-          onChange={(e) => setMemoVal(e.target.value)}
-          placeholder={expenseFormConfig.memo}
-          maxLength={500}
-          className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
-        />
-        <div className="flex gap-2">
-          <CancelButton
-            setEditing={() => setEditing(false)}
-            setError={() => setError(null)}
-          />
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={pending}
-            className="flex-1 py-2 rounded-lg bg-gray-900 text-white text-sm disabled:opacity-50 hover:bg-gray-700 transition-colors duration-300 cursor-pointer"
+    <>
+      <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-2xl w-full max-w-sm p-6 flex flex-col gap-3">
+          <p className="text-sm font-medium text-gray-900">
+            {expenseFormConfig.editHeading}
+          </p>
+          {(error || state.error) && (
+            <p className="text-xs text-red-500 mb-3">{error || state.error}</p>
+          )}
+          <select
+            value={categoryVal}
+            onChange={(e) => setCategoryVal(e.target.value)}
+            className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400 bg-white"
           >
-            {pending ? buttonConfig.savePending : buttonConfig.save}
-          </button>
+            {CATEGORIES.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+          <input
+            type="number"
+            min="0"
+            max="9999999"
+            step="1"
+            value={amountVal}
+            onChange={(e) => setAmountVal(e.target.value)}
+            placeholder={expenseFormConfig.amount}
+            className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
+          />
+          <input
+            value={memoVal}
+            onChange={(e) => setMemoVal(e.target.value)}
+            placeholder={expenseFormConfig.memo}
+            maxLength={500}
+            className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
+          />
+          <div className="flex gap-2">
+            <CancelButton
+              setEditing={() => setEditing(false)}
+              setError={() => setError(null)}
+            />
+            <button
+              type="button"
+              onClick={handleSave}
+              disabled={pending}
+              className="flex-1 py-2 rounded-lg bg-gray-900 text-white text-sm disabled:opacity-50 hover:bg-gray-700 transition-colors duration-300 cursor-pointer"
+            >
+              {pending ? buttonConfig.savePending : buttonConfig.save}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+      <LoadingOverlay visible={pending} />
+    </>
   );
 };
