@@ -27,4 +27,5 @@ export const validationConfig = {
   createError: "追加に失敗しました",
   saveError: "保存に失敗しました",
   deleteError: "削除に失敗しました",
+  updateError: "変更に失敗しました",
 };

@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { startTransition, useActionState } from "react";
 import { toggleSpotChecked } from "@/app/actions";
+import { validationConfig } from "../constants/validation";
 
 const SpotCheckButton = ({
   spotId,
@@ -14,30 +15,43 @@ const SpotCheckButton = ({
   checked: boolean;
 }) => {
   const router = useRouter();
-  const [pending, setPending] = useState(false);
+
+  const [state, action, pending] = useActionState<{
+    error: string | null;
+  }>(
+    async () => {
+      try {
+        await toggleSpotChecked(spotId, tripId);
+        router.refresh();
+        return { error: null };
+      } catch {
+        return { error: validationConfig.updateError };
+      }
+    },
+    { error: null },
+  );
 
   const handleToggle = async () => {
-    setPending(true);
-    try {
-      await toggleSpotChecked(spotId, tripId);
-      router.refresh();
-    } finally {
-      setPending(false);
-    }
+    startTransition(() => action());
   };
 
   return (
-    <button
-      onClick={handleToggle}
-      disabled={pending}
-      className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors cursor-pointer disabled:opacity-50 ${
-        checked
-          ? "bg-green-500 border-green-500 text-white"
-          : "border-gray-300 text-transparent hover:border-gray-400"
-      }`}
-    >
-      ✓
-    </button>
+    <>
+      {state.error && (
+        <p className="text-xs text-red-500 mb-3">{state.error}</p>
+      )}
+      <button
+        onClick={handleToggle}
+        disabled={pending}
+        className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors cursor-pointer disabled:opacity-50 ${
+          checked
+            ? "bg-green-500 border-green-500 text-white"
+            : "border-gray-300 text-transparent hover:border-gray-400"
+        }`}
+      >
+        ✓
+      </button>
+    </>
   );
 };
 
