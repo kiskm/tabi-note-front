@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { Trip } from "@/lib/types";
-import { buttonConfig } from "@/app/constants/ui";
+import { buttonConfig, textConfig } from "@/app/constants/ui";
 
 const TripCard = ({ trip }: { trip: Trip }) => {
   const total = trip.spots.length;
@@ -13,7 +13,7 @@ const TripCard = ({ trip }: { trip: Trip }) => {
     <Link href={`/trips/${trip.id}`}>
       <div className="bg-white rounded-xl border border-gray-200 p-4 hover:border-gray-300 transition-colors duration-300 cursor-pointer">
         <div className="flex justify-between items-start mb-2">
-          <h2 className="text-sm font-medium text-gray-900 leading-snug">
+          <h2 className="text-sm font-medium text-gray-900 w-hull whitespace-nowrap overflow-hidden text-ellipsis leading-snug">
             {trip.title}
           </h2>
           <span
@@ -40,7 +40,9 @@ const TripCard = ({ trip }: { trip: Trip }) => {
             スポット {checked}/{total}件チェック済み
           </p>
         ) : (
-          <br />
+          <p className="text-xs text-gray-400 mb-2">
+            {textConfig.noSpotRegistered}
+          </p>
         )}
         <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
           <div

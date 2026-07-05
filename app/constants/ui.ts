@@ -44,6 +44,7 @@ export const textConfig = {
   spot: "スポット",
   expenses: "費用",
   nights: "泊数",
+  noSpotRegistered: "スポットが登録されていません",
   noSpotSP: "行きたい場所を追加しましょう。",
   noSpotPC: "まだスポットがありません。行きたい場所を追加しましょう。",
   noExpenses: "支出を記録すると合計が自動集計されます。",
