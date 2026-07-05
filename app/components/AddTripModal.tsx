@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, startTransition, useState } from "react";
 import { createTrip } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
 import { tripFormConfig } from "@/app/constants/form";
@@ -10,7 +10,6 @@ import { buttonConfig, toggleConfig } from "@/app/constants/ui";
 const AddTripModal = () => {
   // 状態管理
   const [open, setOpen] = useState(false);
-  const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [area, setArea] = useState("");
@@ -18,7 +17,33 @@ const AddTripModal = () => {
   const [endDate, setEndDate] = useState("");
   const [budget, setBudget] = useState("");
 
-  const handleSubmit = async () => {
+  const [state, action, pending] = useActionState<{
+    error: string | null;
+  }>(
+    async () => {
+      const fd = new FormData();
+      fd.append("title", title.trim());
+      if (area.trim()) fd.append("area", area.trim());
+      if (startDate) fd.append("startDate", startDate);
+      if (endDate) fd.append("endDate", endDate);
+      if (budget) fd.append("budget", budget);
+      try {
+        await createTrip(fd);
+        setOpen(false);
+        setTitle("");
+        setArea("");
+        setStartDate("");
+        setEndDate("");
+        setBudget("");
+        return { error: null };
+      } catch {
+        return { error: validationConfig.createError };
+      }
+    },
+    { error: null },
+  );
+
+  const handleSubmit = () => {
     // バリデーション
     if (!title.trim()) {
       setError(validationConfig.trip.titleRequired);
@@ -60,26 +85,7 @@ const AddTripModal = () => {
     }
 
     setError(null);
-    setPending(true);
-    const fd = new FormData();
-    fd.append("title", title.trim());
-    if (area.trim()) fd.append("area", area.trim());
-    if (startDate) fd.append("startDate", startDate);
-    if (endDate) fd.append("endDate", endDate);
-    if (budget) fd.append("budget", budget);
-    try {
-      await createTrip(fd);
-      setOpen(false);
-      setTitle("");
-      setArea("");
-      setStartDate("");
-      setEndDate("");
-      setBudget("");
-    } catch {
-      setError(validationConfig.createError);
-    } finally {
-      setPending(false);
-    }
+    startTransition(() => action());
   };
 
   return (
@@ -103,7 +109,11 @@ const AddTripModal = () => {
             <h2 className="text-base font-semibold text-gray-900 mb-4">
               {tripFormConfig.title}
             </h2>
-            {error && <p className="text-xs text-red-500 mb-3">{error}</p>}
+            {(error || state.error) && (
+              <p className="text-xs text-red-500 mb-3">
+                {error || state.error}
+              </p>
+            )}
             <div className="flex flex-col gap-3">
               <div>
                 <label className="text-xs text-gray-500 mb-1 block">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { startTransition, useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createSpot } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
@@ -12,11 +12,33 @@ const AddSpotForm = ({ tripId }: { tripId: string }) => {
   // 状態管理
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [memo, setMemo] = useState("");
+
+  const [state, action, pending] = useActionState<{
+    error: string | null;
+  }>(
+    async () => {
+      const fd = new FormData();
+      fd.append("name", name.trim());
+      if (category.trim()) fd.append("category", category.trim());
+      if (memo.trim()) fd.append("memo", memo.trim());
+      try {
+        await createSpot(tripId, fd);
+        setOpen(false);
+        setName("");
+        setCategory("");
+        setMemo("");
+        router.refresh();
+        return { error: null };
+      } catch {
+        return { error: validationConfig.createError };
+      }
+    },
+    { error: null },
+  );
 
   const handleSubmit = async () => {
     // バリデーション
@@ -42,23 +64,7 @@ const AddSpotForm = ({ tripId }: { tripId: string }) => {
     }
 
     setError(null);
-    setPending(true);
-    const fd = new FormData();
-    fd.append("name", name.trim());
-    if (category.trim()) fd.append("category", category.trim());
-    if (memo.trim()) fd.append("memo", memo.trim());
-    try {
-      await createSpot(tripId, fd);
-      setOpen(false);
-      setName("");
-      setCategory("");
-      setMemo("");
-      router.refresh();
-    } catch {
-      setError(validationConfig.createError);
-    } finally {
-      setPending(false);
-    }
+    startTransition(() => action());
   };
 
   if (!open) {
@@ -78,7 +84,9 @@ const AddSpotForm = ({ tripId }: { tripId: string }) => {
       <p className="text-sm font-medium text-gray-900">
         {spotFormConfig.addHeading}
       </p>
-      {error && <p className="text-xs text-red-500">{error}</p>}
+      {(error || state.error) && (
+        <p className="text-xs text-red-500 mb-3">{error || state.error}</p>
+      )}
       <input
         value={name}
         onChange={(e) => setName(e.target.value)}
