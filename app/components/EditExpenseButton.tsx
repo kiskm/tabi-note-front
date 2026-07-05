@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { startTransition, useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateExpense } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
@@ -24,13 +24,32 @@ export const EditExpenseButton = ({
   const router = useRouter();
   // 状態管理
   const [editing, setEditing] = useState(false);
-  const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [categoryVal, setCategoryVal] = useState(category);
   const [amountVal, setAmountVal] = useState(String(amount));
   const [memoVal, setMemoVal] = useState(memo ?? "");
 
-  async function handleSave() {
+  const [state, action, pending] = useActionState<{
+    error: string | null;
+  }>(
+    async () => {
+      try {
+        await updateExpense(expenseId, tripId, {
+          category: categoryVal,
+          amount: Number(amountVal),
+          memo: memoVal.trim() || undefined,
+        });
+        setEditing(false);
+        router.refresh();
+        return { error: null };
+      } catch {
+        return { error: validationConfig.saveError };
+      }
+    },
+    { error: null },
+  );
+
+  const handleSave = async () => {
     const num = Number(amountVal);
 
     if (!amountVal) {
@@ -60,21 +79,8 @@ export const EditExpenseButton = ({
     }
 
     setError(null);
-    setPending(true);
-    try {
-      await updateExpense(expenseId, tripId, {
-        category: categoryVal,
-        amount: num,
-        memo: memoVal.trim() || undefined,
-      });
-      setEditing(false);
-      router.refresh();
-    } catch {
-      setError(validationConfig.saveError);
-    } finally {
-      setPending(false);
-    }
-  }
+    startTransition(() => action());
+  };
 
   if (!editing) {
     return (
@@ -93,7 +99,9 @@ export const EditExpenseButton = ({
         <p className="text-sm font-medium text-gray-900">
           {expenseFormConfig.editHeading}
         </p>
-        {error && <p className="text-xs text-red-500">{error}</p>}
+        {(error || state.error) && (
+          <p className="text-xs text-red-500 mb-3">{error || state.error}</p>
+        )}
         <select
           value={categoryVal}
           onChange={(e) => setCategoryVal(e.target.value)}

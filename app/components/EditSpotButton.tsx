@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { startTransition, useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateSpot } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
@@ -24,11 +24,30 @@ export const EditSpotButton = ({
   const router = useRouter();
   // 状態管理
   const [editing, setEditing] = useState(false);
-  const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [nameVal, setNameVal] = useState(name);
   const [categoryVal, setCategoryVal] = useState(category ?? "");
   const [memoVal, setMemoVal] = useState(memo ?? "");
+
+  const [state, action, pending] = useActionState<{
+    error: string | null;
+  }>(
+    async () => {
+      try {
+        await updateSpot(spotId, tripId, {
+          name: nameVal.trim(),
+          category: categoryVal.trim() || undefined,
+          memo: memoVal.trim() || undefined,
+        });
+        setEditing(false);
+        router.refresh();
+        return { error: null };
+      } catch {
+        return { error: validationConfig.saveError };
+      }
+    },
+    { error: null },
+  );
 
   const handleSave = async () => {
     // バリデーション
@@ -54,20 +73,7 @@ export const EditSpotButton = ({
     }
 
     setError(null);
-    setPending(true);
-    try {
-      await updateSpot(spotId, tripId, {
-        name: nameVal.trim(),
-        category: categoryVal.trim() || undefined,
-        memo: memoVal.trim() || undefined,
-      });
-      setEditing(false);
-      router.refresh();
-    } catch {
-      setError(validationConfig.saveError);
-    } finally {
-      setPending(false);
-    }
+    startTransition(() => action());
   };
 
   if (!editing) {
@@ -87,7 +93,9 @@ export const EditSpotButton = ({
         <p className="text-sm font-medium text-gray-900">
           {spotFormConfig.editHeading}
         </p>
-        {error && <p className="text-xs text-red-500">{error}</p>}
+        {(error || state.error) && (
+          <p className="text-xs text-red-500 mb-3">{error || state.error}</p>
+        )}
         <input
           value={nameVal}
           onChange={(e) => setNameVal(e.target.value)}
