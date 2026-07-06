@@ -11,6 +11,7 @@ import TripAction from "@/app/components/TripAction";
 import { differenceInBusinessDays } from "date-fns";
 import { IconMapPinPlus, IconReceipt } from "@tabler/icons-react";
 import TripDelete from "@/app/components/TripDelete";
+import EditTripButton from "@/app/components/EditTripButton";
 
 const TripDetailPage = async ({
   params,
@@ -201,6 +202,20 @@ const TripDetailPage = async ({
                   <AddExpenseForm tripId={trip.id} />
                 </div>
               )}
+            </div>
+            <div
+              className="pl-4 py-3
+                border-t border-stone-200 bg-stone-50"
+            >
+              <EditTripButton
+                tripId={trip.id}
+                title={trip.title}
+                area={trip.area}
+                startDate={trip.startDate}
+                endDate={trip.endDate}
+                budget={trip.budget}
+                status={trip.status}
+              />
             </div>
             <div
               className="flex justify-end px-lg py-3

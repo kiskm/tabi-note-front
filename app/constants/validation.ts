@@ -8,6 +8,7 @@ export const validationConfig = {
     budgetLength: "予算は9,999,999円以下で入力してください",
     budgetInteger: "予算は整数で入力してください",
     createError: "追加に失敗しました",
+    updateError: "更新に失敗しました",
   },
   spot: {
     spotRequired: "スポット名は必須です",

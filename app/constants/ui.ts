@@ -16,6 +16,7 @@ export const buttonConfig = {
   edit: "編集",
   cancel: "キャンセル",
   delete: "削除",
+  tripEdit: "旅行を編集",
   tripDelete: "旅行を削除",
   want: "行きたい",
   done: "行った",
