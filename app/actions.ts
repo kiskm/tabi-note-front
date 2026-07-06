@@ -29,6 +29,30 @@ export const createTrip = async (formData: FormData) => {
   refresh();
 };
 
+// 旅行を更新
+export const updateTrip = async (
+  tripId: string,
+  data: {
+    title?: string;
+    area?: string;
+    startDate?: string;
+    endDate?: string;
+    budget?: number;
+    status?: "want" | "done";
+  },
+) => {
+  const res = await fetch(`${API_BASE}/trips/${tripId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", ...(await getAuthHeader()) },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to update trip");
+  }
+  revalidatePath(`/trips/${tripId}`);
+};
+
+// 旅行のステータスを変更
 export const updateTripStatus = async (id: string, status: "want" | "done") => {
   const res = await fetch(`${API_BASE}/trips/${id}`, {
     method: "PATCH",

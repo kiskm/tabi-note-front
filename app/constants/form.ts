@@ -18,9 +18,11 @@ export const formConfig = {
 } as const;
 
 export const tripFormConfig = {
-  heading: "旅行を追加",
-  title: "タイトル *",
+  addHeading: "旅行を追加",
+  editHeading: "旅行を編集",
+  title: "タイトル",
   tripName: "例：京都・奈良 紅葉旅",
+  areaLabel: "エリア",
   area: "例：関西",
   startDate: "開始日",
   endDate: "終了日",

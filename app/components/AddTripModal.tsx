@@ -108,7 +108,7 @@ const AddTripModal = () => {
         <div className="fixed inset-0 bg-black/40 flex items-end sm:items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-sm p-6">
             <h2 className="text-base font-semibold text-gray-900 mb-4">
-              {tripFormConfig.title}
+              {tripFormConfig.addHeading}
             </h2>
             {(error || state.error) && (
               <p className="text-xs text-red-500 mb-3">
@@ -130,7 +130,7 @@ const AddTripModal = () => {
               </div>
               <div>
                 <label className="text-xs text-gray-500 mb-1 block">
-                  {tripFormConfig.area}
+                  {tripFormConfig.areaLabel}
                 </label>
                 <input
                   value={area}
