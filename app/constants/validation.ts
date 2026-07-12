@@ -7,15 +7,12 @@ export const validationConfig = {
     budgetRequired: "予算は0以上で入力してください",
     budgetLength: "予算は9,999,999円以下で入力してください",
     budgetInteger: "予算は整数で入力してください",
-    createError: "追加に失敗しました",
-    updateError: "更新に失敗しました",
   },
   spot: {
     spotRequired: "スポット名は必須です",
     spotLength: "スポット名は100文字以内で入力してください",
     categoryLength: "カテゴリは50文字以内で入力してください",
     memoLength: "メモは500文字以内で入力してください",
-    createError: "追加に失敗しました",
   },
   expense: {
     amountRequired: "金額は必須です",
@@ -23,7 +20,6 @@ export const validationConfig = {
     amountLength: "金額は9,999,999円以下で入力してください",
     amountInteger: "金額は整数で入力してください",
     memoLength: "メモは500文字以内で入力してください",
-    deleteError: "削除に失敗しました",
   },
   createError: "追加に失敗しました",
   saveError: "保存に失敗しました",
