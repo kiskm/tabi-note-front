@@ -93,16 +93,18 @@ const AddTripModal = () => {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center text-xl shadow-md hover:bg-gray-700 transition-colors md:hidden"
+        className="w-10 h-10 rounded-full bg-orange-600 text-white flex items-center justify-center text-xl shadow-md hover:bg-orange-700 transition-colors md:hidden"
       >
         {toggleConfig.addTripSP}
       </button>
-      <button
-        onClick={() => setOpen(true)}
-        className="rounded-lg py-2 px-3 bg-gray-900 text-gray-100 text-lg font-serif shadow-md hover:bg-gray-700 transition-colors duration-300 cursor-pointer hidden md:block"
-      >
-        {toggleConfig.addTripPC}
-      </button>
+      <div className="hidden md:block">
+        <button
+          onClick={() => setOpen(true)}
+          className="inline-flex items-center gap-1 border bg-orange-600 text-white text-sm font-medium px-3.5 py-2 rounded-lg hover:bg-orange-700 transition-colors duration-300 cursor-pointer"
+        >
+          {toggleConfig.addTripPC}
+        </button>
+      </div>
 
       {open && (
         <div className="fixed inset-0 bg-black/40 flex items-end sm:items-center justify-center z-50 p-4">
