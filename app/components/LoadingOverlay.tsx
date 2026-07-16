@@ -1,4 +1,4 @@
-export const LoadingOverlay = ({ visible }: { visible: boolean }) => {
+const LoadingOverlay = ({ visible }: { visible: boolean }) => {
   return (
     <>
       {visible && (
@@ -14,3 +14,5 @@ export const LoadingOverlay = ({ visible }: { visible: boolean }) => {
     </>
   );
 };
+
+export default LoadingOverlay;

@@ -7,7 +7,7 @@ import { validationConfig } from "@/app/constants/validation";
 import { CATEGORIES, expenseFormConfig } from "@/app/constants/form";
 import { CancelButton } from "@/app/components/CancelButton";
 import { buttonConfig, toggleConfig } from "@/app/constants/ui";
-import { LoadingOverlay } from "@/app/components/LoadingOverlay";
+import LoadingOverlay from "@/app/components/LoadingOverlay";
 
 const AddExpenseForm = ({ tripId }: { tripId: string }) => {
   // 状態管理

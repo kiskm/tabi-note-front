@@ -5,8 +5,8 @@ import { startTransition, useActionState } from "react";
 import { updateTripStatus } from "@/app/actions";
 import type { TripStatus } from "@/lib/types";
 import { buttonConfig } from "@/app/constants/ui";
-import { validationConfig } from "../constants/validation";
-import { LoadingOverlay } from "@/app/components/LoadingOverlay";
+import { validationConfig } from "@/app/constants/validation";
+import LoadingOverlay from "@/app/components/LoadingOverlay";
 
 const TripAction = ({
   tripId,
