@@ -1,3 +1,5 @@
+import { textConfig } from "@/app/constants/ui";
+
 const AchievementRateBar = ({
   doneCount,
   allTrips,
@@ -9,7 +11,9 @@ const AchievementRateBar = ({
   return (
     <div className="px-5 py-5 border-b border-stone-200">
       <div className="flex items-baseline justify-between mb-1.5 text-sm text-stone-500">
-        <span className="text-emerald-700 mr-1">達成率</span>
+        <span className="text-emerald-700 mr-1">
+          {textConfig.achievementRate}
+        </span>
         <span>
           <span className="text-base font-medium text-stone-900">
             {achievementRate}%
