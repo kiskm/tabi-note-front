@@ -6,7 +6,7 @@ import { createSpot } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
 import { spotFormConfig } from "@/app/constants/form";
 import { buttonConfig, toggleConfig } from "@/app/constants/ui";
-import { CancelButton } from "@/app/components/CancelButton";
+import CancelButton from "@/app/components/CancelButton";
 import LoadingOverlay from "@/app/components/LoadingOverlay";
 
 const AddSpotForm = ({ tripId }: { tripId: string }) => {

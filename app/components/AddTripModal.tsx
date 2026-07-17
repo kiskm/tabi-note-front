@@ -4,8 +4,8 @@ import { useActionState, startTransition, useState } from "react";
 import { createTrip } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
 import { tripFormConfig } from "@/app/constants/form";
-import { CancelButton } from "@/app/components/CancelButton";
 import { buttonConfig, toggleConfig } from "@/app/constants/ui";
+import CancelButton from "@/app/components/CancelButton";
 import LoadingOverlay from "@/app/components/LoadingOverlay";
 
 const AddTripModal = () => {
