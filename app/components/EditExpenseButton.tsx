@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { updateExpense } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
 import { CATEGORIES, expenseFormConfig } from "@/app/constants/form";
-import { CancelButton } from "@/app/components/CancelButton";
 import { buttonConfig } from "@/app/constants/ui";
-import { LoadingOverlay } from "@/app/components/LoadingOverlay";
+import CancelButton from "@/app/components/CancelButton";
+import LoadingOverlay from "@/app/components/LoadingOverlay";
 
 export const EditExpenseButton = ({
   expenseId,

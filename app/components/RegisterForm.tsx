@@ -5,7 +5,7 @@ import { register } from "@/app/actions";
 import Link from "next/link";
 import { buttonConfig, headingConfig, textConfig } from "@/app/constants/ui";
 import { userFormConfig } from "@/app/constants/form";
-import { LoadingOverlay } from "@/app/components/LoadingOverlay";
+import LoadingOverlay from "@/app/components/LoadingOverlay";
 
 const RegisterForm = () => {
   const [state, formAction, pending] = useActionState(register, null);

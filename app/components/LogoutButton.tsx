@@ -8,7 +8,7 @@ export const LogoutButton = () => {
     <form action={logout}>
       <button
         type="submit"
-        className="ml-auto px-2 py-1 text-md rounded-md bg-red-500 text-white hover:bg-red-700 transition-colors duration-300 cursor-pointer"
+        className="inline-flex items-center gap-1 border border-orange-300 text-orange-800 text-sm px-3.5 py-2 rounded-lg hover:bg-orange-100 transition-colors duration-300 cursor-pointer"
       >
         {buttonConfig.logout}
       </button>

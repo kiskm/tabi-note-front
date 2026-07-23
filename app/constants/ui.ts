@@ -49,6 +49,7 @@ export const textConfig = {
   noSpotSP: "行きたい場所を追加しましょう。",
   noSpotPC: "まだスポットがありません。行きたい場所を追加しましょう。",
   noExpenses: "支出を記録すると合計が自動集計されます。",
+  achievementRate: "達成率",
 };
 
 export const headingConfig = {

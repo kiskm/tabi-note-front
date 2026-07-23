@@ -6,7 +6,7 @@ import { deleteTrip } from "@/app/actions";
 import { buttonConfig, confirmConfig } from "@/app/constants/ui";
 import { SubmitState } from "@/lib/types";
 import { validationConfig } from "../constants/validation";
-import { LoadingOverlay } from "@/app/components/LoadingOverlay";
+import LoadingOverlay from "@/app/components/LoadingOverlay";
 
 const TripDelete = ({ tripId }: { tripId: string }) => {
   const router = useRouter();

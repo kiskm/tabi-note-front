@@ -5,7 +5,7 @@ type Props = {
   setError: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-export const CancelButton = ({ setEditing, setError }: Props) => {
+const CancelButton = ({ setEditing, setError }: Props) => {
   return (
     <button
       type="button"
@@ -19,3 +19,5 @@ export const CancelButton = ({ setEditing, setError }: Props) => {
     </button>
   );
 };
+
+export default CancelButton;
