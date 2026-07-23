@@ -184,14 +184,16 @@ export const login = async (prevState: any, formData: FormData) => {
     return { status: "error", data: null, error };
   }
 
-  const { accessToken } = await res.json();
+  const { accessToken, username } = await res.json();
   const cookieStore = await cookies();
-  cookieStore.set("accessToken", accessToken, {
+  const cookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: 60 * 60 * 24 * 7, // 7日間
+    maxAge: 60 * 60 * 24 * 7,
     path: "/",
-  });
+  };
+  cookieStore.set("accessToken", accessToken, cookieOptions);
+  cookieStore.set("username", username, cookieOptions);
 
   redirect("/");
 };
@@ -213,14 +215,16 @@ export const register = async (prevState: any, formData: FormData) => {
     return { status: "error", data: null, error };
   }
 
-  const { accessToken } = await res.json();
+  const { accessToken, username } = await res.json();
   const cookieStore = await cookies();
-  cookieStore.set("accessToken", accessToken, {
+  const cookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: 60 * 60 * 24 * 7, // 7日間
+    maxAge: 60 * 60 * 24 * 7,
     path: "/",
-  });
+  };
+  cookieStore.set("accessToken", accessToken, cookieOptions);
+  cookieStore.set("username", username, cookieOptions);
 
   redirect("/");
 };
@@ -229,5 +233,6 @@ export const register = async (prevState: any, formData: FormData) => {
 export const logout = async () => {
   const cookieStore = await cookies();
   cookieStore.delete("accessToken");
+  cookieStore.delete("username");
   redirect("/login");
 };

@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { getTrips } from "@/lib/api";
 import TripListTabs from "@/app/components/TripListTabs";
 import AddTripModal from "@/app/components/AddTripModal";
@@ -8,6 +9,7 @@ import AchievementRateBar from "@/app/components/AchievementRateBar";
 const Page = async () => {
   const trips = await getTrips();
   const doneCount = trips.filter((t) => t.status === "done").length;
+  const username = (await cookies()).get("username")?.value ?? "";
 
   return (
     <div className="mx-auto px-4 py-6 md:px-8">
@@ -16,6 +18,9 @@ const Page = async () => {
           {titleConfig.title}
         </h1>
         <div className="flex justify-end">
+          <h2 className="text-sm text-gray-500 mt-2.5 mr-3">
+            こんにちは、{username}さん
+          </h2>
           <div className="mb-4 mr-1 hidden md:block">
             <AddTripModal />
           </div>

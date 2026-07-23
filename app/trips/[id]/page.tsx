@@ -12,6 +12,7 @@ import { differenceInBusinessDays } from "date-fns";
 import { IconMapPinPlus, IconReceipt } from "@tabler/icons-react";
 import TripDelete from "@/app/components/TripDelete";
 import EditTripModal from "@/app/components/EditTripModal";
+import { cookies } from "next/headers";
 
 const TripDetailPage = async ({
   params,
@@ -20,6 +21,7 @@ const TripDetailPage = async ({
 }) => {
   const { id } = await params;
   const trip = await getTrip(id);
+  const username = (await cookies()).get("username")?.value ?? "";
 
   const dateRange = [trip.startDate, trip.endDate].filter(Boolean).join(" 〜 ");
 
@@ -45,7 +47,7 @@ const TripDetailPage = async ({
             <span className="font-serif text-xl text-stone-900">
               <Link href="/">{titleConfig.title}</Link>
             </span>
-            <span className="text-sm text-stone-400">{trip.userId}</span>
+            <span className="text-sm text-stone-400">{username}さん</span>
           </div>
           {/* 詳細カード */}
           <div className="bg-white border border-stone-200 rounded-xl overflow-hidden">
