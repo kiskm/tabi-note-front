@@ -45,6 +45,13 @@ export const expenseFormConfig = {
   memo: "メモ（任意）",
 };
 
+export const participantFormConfig = {
+  addHeading: "参加者を追加",
+  editHeading: "参加者を編集",
+  name: "名前 *",
+  email: "メールアドレス（任意）",
+};
+
 export const userFormConfig = {
   userName: "ユーザ名",
   email: "メールアドレス",

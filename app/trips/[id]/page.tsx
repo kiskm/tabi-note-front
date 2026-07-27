@@ -9,7 +9,10 @@ import { ExpenseSummary } from "@/app/components/ExpenseSummary";
 import { textConfig, titleConfig } from "@/app/constants/ui";
 import TripAction from "@/app/components/TripAction";
 import { differenceInBusinessDays } from "date-fns";
-import { IconMapPinPlus, IconReceipt } from "@tabler/icons-react";
+import { IconMapPinPlus, IconReceipt, IconUsers } from "@tabler/icons-react";
+import AddParticipantForm from "@/app/components/AddParticipantForm";
+import { DeleteParticipantButton } from "@/app/components/DeleteParticipantButton";
+import { EditParticipantButton } from "@/app/components/EditParticipantButton";
 import TripDelete from "@/app/components/TripDelete";
 import EditTripModal from "@/app/components/EditTripModal";
 import { cookies } from "next/headers";
@@ -164,6 +167,68 @@ const TripDetailPage = async ({
                     {textConfig.noSpotSP}
                   </p>
                   <AddSpotForm tripId={trip.id} />
+                </div>
+              )}
+            </div>
+            {/* 参加者 */}
+            <div className="px-4 py-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[15px] font-serif font-medium text-stone-900">
+                  {textConfig.participant}
+                </span>
+                {trip.participants.length > 0 && (
+                  <span className="text-xs text-stone-400 bg-stone-100 px-2.5 py-0.5 rounded-full">
+                    {trip.participants.length}
+                  </span>
+                )}
+              </div>
+              {trip.participants.length > 0 ? (
+                <>
+                  <div className="flex flex-col gap-2">
+                    {trip.participants.map((participant) => (
+                      <div
+                        key={participant.id}
+                        className="bg-white rounded-xl border border-gray-200 px-4 py-3 flex items-center gap-3"
+                      >
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-gray-900">
+                            {participant.name}
+                          </p>
+                          {participant.email && (
+                            <p className="text-xs text-gray-500">
+                              {participant.email}
+                            </p>
+                          )}
+                        </div>
+                        <EditParticipantButton
+                          participantId={participant.id}
+                          tripId={trip.id}
+                          name={participant.name}
+                          email={participant.email}
+                        />
+                        <DeleteParticipantButton
+                          participantId={participant.id}
+                          tripId={trip.id}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-1">
+                    <AddParticipantForm tripId={trip.id} />
+                  </div>
+                </>
+              ) : (
+                <div
+                  className="border border-dashed border-stone-300 rounded-xl
+                  py-5 px-4 text-center items-center mb-5"
+                >
+                  <div className="flex text-violet-600 text-2xl mb-1.5 justify-center">
+                    <IconUsers />
+                  </div>
+                  <p className="text-sm text-stone-500 mb-3">
+                    {textConfig.noParticipant}
+                  </p>
+                  <AddParticipantForm tripId={trip.id} />
                 </div>
               )}
             </div>

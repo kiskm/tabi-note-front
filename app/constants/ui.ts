@@ -6,6 +6,7 @@ export const confirmConfig = {
   deleteTrip: "この旅行を削除しますか？",
   deleteSpot: "このスポットを削除しますか？",
   deleteExpense: "この支出を削除しますか？",
+  deleteParticipant: "この参加者を削除しますか？",
 };
 
 export const buttonConfig = {
@@ -35,6 +36,7 @@ export const toggleConfig = {
   addTripSP: "+",
   addSpot: "+ スポットを追加",
   addExpense: "+ 支出を追加",
+  addParticipant: "+ 参加者を追加",
 };
 
 export const textConfig = {
@@ -50,6 +52,8 @@ export const textConfig = {
   noSpotPC: "まだスポットがありません。行きたい場所を追加しましょう。",
   noExpenses: "支出を記録すると合計が自動集計されます。",
   achievementRate: "達成率",
+  participant: "参加者",
+  noParticipant: "一緒に旅行するメンバーを追加しましょう。",
 };
 
 export const headingConfig = {

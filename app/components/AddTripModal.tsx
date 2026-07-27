@@ -37,8 +37,10 @@ const AddTripModal = () => {
         setEndDate("");
         setBudget("");
         return { error: null };
-      } catch {
-        return { error: validationConfig.createError };
+      } catch (e) {
+        return {
+          error: e instanceof Error ? e.message : validationConfig.createError,
+        };
       }
     },
     { error: null },

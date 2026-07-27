@@ -2,43 +2,41 @@
 
 import { startTransition, useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
-import { updateExpense } from "@/app/actions";
+import { updateParticipant } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
-import { CATEGORIES, expenseFormConfig } from "@/app/constants/form";
+import { participantFormConfig } from "@/app/constants/form";
 import { buttonConfig } from "@/app/constants/ui";
 import CancelButton from "@/app/components/CancelButton";
 import LoadingOverlay from "@/app/components/LoadingOverlay";
 
-export const EditExpenseButton = ({
-  expenseId,
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export const EditParticipantButton = ({
+  participantId,
   tripId,
-  category,
-  amount,
-  memo,
+  name,
+  email,
 }: {
-  expenseId: number;
+  participantId: number;
   tripId: string;
-  category: string;
-  amount: number;
-  memo: string | null;
+  name: string;
+  email: string | null;
 }) => {
   const router = useRouter();
   // 状態管理
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [categoryVal, setCategoryVal] = useState(category);
-  const [amountVal, setAmountVal] = useState(String(amount));
-  const [memoVal, setMemoVal] = useState(memo ?? "");
+  const [nameVal, setNameVal] = useState(name);
+  const [emailVal, setEmailVal] = useState(email ?? "");
 
   const [state, action, pending] = useActionState<{
     error: string | null;
   }>(
     async () => {
       try {
-        await updateExpense(expenseId, tripId, {
-          category: categoryVal,
-          amount: Number(amountVal),
-          memo: memoVal.trim() || undefined,
+        await updateParticipant(participantId, tripId, {
+          name: nameVal.trim(),
+          email: emailVal.trim() || undefined,
         });
         setEditing(false);
         router.refresh();
@@ -53,31 +51,20 @@ export const EditExpenseButton = ({
   );
 
   const handleSave = async () => {
-    const num = Number(amountVal);
-
-    if (!amountVal) {
-      setError(validationConfig.expense.amountRequired);
-      setAmountVal("");
+    // バリデーション
+    if (!nameVal.trim()) {
+      setError(validationConfig.participant.nameRequired);
+      setNameVal("");
       return;
     }
-    if (num < 0) {
-      setError(validationConfig.expense.amountOverZero);
-      setAmountVal("");
+    if (nameVal.trim().length > 100) {
+      setError(validationConfig.participant.nameLength);
+      setNameVal("");
       return;
     }
-    if (num > 9999999) {
-      setError(validationConfig.expense.amountLength);
-      setAmountVal("");
-      return;
-    }
-    if (!Number.isInteger(num)) {
-      setError(validationConfig.expense.amountInteger);
-      setAmountVal("");
-      return;
-    }
-    if (memoVal.trim().length > 500) {
-      setError(validationConfig.expense.memoLength);
-      setMemoVal("");
+    if (emailVal.trim() && !EMAIL_PATTERN.test(emailVal.trim())) {
+      setError(validationConfig.participant.emailInvalid);
+      setEmailVal("");
       return;
     }
 
@@ -101,37 +88,24 @@ export const EditExpenseButton = ({
       <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-2xl w-full max-w-sm p-6 flex flex-col gap-3">
           <p className="text-sm font-medium text-gray-900">
-            {expenseFormConfig.editHeading}
+            {participantFormConfig.editHeading}
           </p>
           {(error || state.error) && (
             <p className="text-xs text-red-500 mb-3">{error || state.error}</p>
           )}
-          <select
-            value={categoryVal}
-            onChange={(e) => setCategoryVal(e.target.value)}
-            className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400 bg-white"
-          >
-            {CATEGORIES.map((c) => (
-              <option key={c.value} value={c.value}>
-                {c.label}
-              </option>
-            ))}
-          </select>
           <input
-            type="number"
-            min="0"
-            max="9999999"
-            step="1"
-            value={amountVal}
-            onChange={(e) => setAmountVal(e.target.value)}
-            placeholder={expenseFormConfig.amount}
+            value={nameVal}
+            onChange={(e) => setNameVal(e.target.value)}
+            placeholder={participantFormConfig.name}
+            maxLength={100}
             className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
           />
           <input
-            value={memoVal}
-            onChange={(e) => setMemoVal(e.target.value)}
-            placeholder={expenseFormConfig.memo}
-            maxLength={500}
+            type="email"
+            value={emailVal}
+            onChange={(e) => setEmailVal(e.target.value)}
+            placeholder={participantFormConfig.email}
+            maxLength={255}
             className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
           />
           <div className="flex gap-2">

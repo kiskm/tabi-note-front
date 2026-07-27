@@ -2,36 +2,35 @@
 
 import { startTransition, useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createExpense } from "@/app/actions";
+import { createParticipant } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
-import { CATEGORIES, expenseFormConfig } from "@/app/constants/form";
+import { participantFormConfig } from "@/app/constants/form";
 import { buttonConfig, toggleConfig } from "@/app/constants/ui";
 import CancelButton from "@/app/components/CancelButton";
 import LoadingOverlay from "@/app/components/LoadingOverlay";
 
-const AddExpenseForm = ({ tripId }: { tripId: string }) => {
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const AddParticipantForm = ({ tripId }: { tripId: string }) => {
   // 状態管理
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [category, setCategory] = useState("transport");
-  const [amount, setAmount] = useState("");
-  const [memo, setMemo] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
   const [state, action, pending] = useActionState<{
     error: string | null;
   }>(
     async () => {
       const fd = new FormData();
-      fd.append("category", category);
-      fd.append("amount", amount);
-      if (memo.trim()) fd.append("memo", memo.trim());
+      fd.append("name", name.trim());
+      if (email.trim()) fd.append("email", email.trim());
       try {
-        await createExpense(tripId, fd);
+        await createParticipant(tripId, fd);
         setOpen(false);
-        setCategory("transport");
-        setAmount("");
-        setMemo("");
+        setName("");
+        setEmail("");
         router.refresh();
         return { error: null };
       } catch (e) {
@@ -42,32 +41,22 @@ const AddExpenseForm = ({ tripId }: { tripId: string }) => {
     },
     { error: null },
   );
+
   const handleSubmit = async () => {
     // バリデーション
-    const num = Number(amount);
-    if (!amount) {
-      setError(validationConfig.expense.amountRequired);
-      setAmount("");
+    if (!name.trim()) {
+      setError(validationConfig.participant.nameRequired);
+      setName("");
       return;
     }
-    if (num < 0) {
-      setError(validationConfig.expense.amountOverZero);
-      setAmount("");
+    if (name.trim().length > 100) {
+      setError(validationConfig.participant.nameLength);
+      setName("");
       return;
     }
-    if (num > 9999999) {
-      setError(validationConfig.expense.amountLength);
-      setAmount("");
-      return;
-    }
-    if (!Number.isInteger(num)) {
-      setError(validationConfig.expense.amountInteger);
-      setAmount("");
-      return;
-    }
-    if (memo.trim().length > 500) {
-      setError(validationConfig.expense.memoLength);
-      setMemo("");
+    if (email.trim() && !EMAIL_PATTERN.test(email.trim())) {
+      setError(validationConfig.participant.emailInvalid);
+      setEmail("");
       return;
     }
 
@@ -79,10 +68,10 @@ const AddExpenseForm = ({ tripId }: { tripId: string }) => {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="border border-emerald-600 text-emerald-800
+        className="border border-violet-600 text-violet-800
                        px-3 py-1.5 rounded-lg text-sm cursor-pointer hover:bg-gray-50 duration-300"
       >
-        {toggleConfig.addExpense}
+        {toggleConfig.addParticipant}
       </button>
     );
   }
@@ -91,37 +80,24 @@ const AddExpenseForm = ({ tripId }: { tripId: string }) => {
     <>
       <div className="bg-white rounded-xl border border-gray-200 p-4 flex flex-col gap-3">
         <p className="text-sm font-medium text-gray-900">
-          {expenseFormConfig.addHeading}
+          {participantFormConfig.addHeading}
         </p>
         {(error || state.error) && (
           <p className="text-xs text-red-500 mb-3">{error || state.error}</p>
         )}
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400 bg-white"
-        >
-          {CATEGORIES.map((c) => (
-            <option key={c.value} value={c.value}>
-              {c.label}
-            </option>
-          ))}
-        </select>
         <input
-          type="number"
-          min="0"
-          max="9999999"
-          step="1"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          placeholder={expenseFormConfig.amount}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder={participantFormConfig.name}
+          maxLength={100}
           className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
         />
         <input
-          value={memo}
-          onChange={(e) => setMemo(e.target.value)}
-          placeholder={expenseFormConfig.memo}
-          maxLength={500}
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder={participantFormConfig.email}
+          maxLength={255}
           className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
         />
         <div className="flex gap-2">
@@ -144,4 +120,4 @@ const AddExpenseForm = ({ tripId }: { tripId: string }) => {
   );
 };
 
-export default AddExpenseForm;
+export default AddParticipantForm;

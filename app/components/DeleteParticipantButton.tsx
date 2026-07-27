@@ -2,24 +2,24 @@
 
 import { useRouter } from "next/navigation";
 import { startTransition, useActionState } from "react";
-import { deleteSpot } from "@/app/actions";
+import { deleteParticipant } from "@/app/actions";
 import { buttonConfig, confirmConfig } from "@/app/constants/ui";
 import { validationConfig } from "@/app/constants/validation";
 import { SubmitState } from "@/lib/types";
 import LoadingOverlay from "@/app/components/LoadingOverlay";
 
-export const DeleteSpotButton = ({
-  spotId,
+export const DeleteParticipantButton = ({
+  participantId,
   tripId,
 }: {
-  spotId: number;
+  participantId: number;
   tripId: string;
 }) => {
   const router = useRouter();
   const [state, action, pending] = useActionState<SubmitState>(
     async (_prevState) => {
       try {
-        await deleteSpot(spotId, tripId);
+        await deleteParticipant(participantId, tripId);
         router.refresh();
         return { error: null };
       } catch (e) {
@@ -32,7 +32,7 @@ export const DeleteSpotButton = ({
   );
 
   const handleDelete = () => {
-    if (!confirm(confirmConfig.deleteSpot)) return;
+    if (!confirm(confirmConfig.deleteParticipant)) return;
     startTransition(action);
   };
 

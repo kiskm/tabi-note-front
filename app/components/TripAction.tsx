@@ -25,8 +25,10 @@ const TripAction = ({
         await updateTripStatus(tripId, status === "want" ? "done" : "want");
         router.refresh();
         return { error: null };
-      } catch {
-        return { error: validationConfig.createError };
+      } catch (e) {
+        return {
+          error: e instanceof Error ? e.message : validationConfig.createError,
+        };
       }
     },
     { error: null },
