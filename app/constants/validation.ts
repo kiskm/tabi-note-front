@@ -21,6 +21,18 @@ export const validationConfig = {
     amountInteger: "金額は整数で入力してください",
     memoLength: "メモは500文字以内で入力してください",
   },
+  participant: {
+    nameRequired: "名前は必須です",
+    nameLength: "名前は100文字以内で入力してください",
+    emailInvalid: "メールアドレスの形式が正しくありません",
+  },
+  user: {
+    usernameRequired: "ユーザ名は必須です",
+    emailRequired: "メールアドレスは必須です",
+    emailInvalid: "メールアドレスの形式が正しくありません",
+    passwordRequired: "パスワードは必須です",
+    passwordLength: "パスワードは6文字以上32文字以内で入力してください",
+  },
   createError: "追加に失敗しました",
   saveError: "保存に失敗しました",
   deleteError: "削除に失敗しました",

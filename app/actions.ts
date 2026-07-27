@@ -6,7 +6,29 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { validationConfig } from "@/app/constants/validation";
+
 const API_BASE = process.env.API_URL ?? "http://localhost:8000";
+
+// Server Actionをまたぐとエラーのクラス情報は失われるため、
+// メッセージ自体をそのまま表示できる文言にして投げる
+const parseErrorMessage = async (res: Response): Promise<string | null> => {
+  try {
+    const data = await res.json();
+    if (typeof data?.message === "string") return data.message;
+    if (Array.isArray(data?.message) && typeof data.message[0] === "string") {
+      return data.message[0];
+    }
+  } catch {
+    // レスポンスがJSONでない場合はフォールバックに委ねる
+  }
+  return null;
+};
+
+const throwApiError = async (res: Response, fallback: string): Promise<never> => {
+  const message = await parseErrorMessage(res);
+  throw new Error(message ?? fallback);
+};
 
 // 旅行を追加
 export const createTrip = async (formData: FormData) => {
@@ -24,7 +46,7 @@ export const createTrip = async (formData: FormData) => {
     body: JSON.stringify(body),
   });
   if (!res.ok) {
-    throw new Error("Failed to create trip");
+    await throwApiError(res, validationConfig.createError);
   }
   refresh();
 };
@@ -47,7 +69,7 @@ export const updateTrip = async (
     body: JSON.stringify(data),
   });
   if (!res.ok) {
-    throw new Error("Failed to update trip");
+    await throwApiError(res, validationConfig.updateError);
   }
   revalidatePath(`/trips/${tripId}`);
 };
@@ -59,7 +81,7 @@ export const updateTripStatus = async (id: string, status: "want" | "done") => {
     headers: { "Content-Type": "application/json", ...(await getAuthHeader()) },
     body: JSON.stringify({ status }),
   });
-  if (!res.ok) throw new Error("Failed to update trip");
+  if (!res.ok) await throwApiError(res, validationConfig.updateError);
   revalidatePath("/");
 };
 
@@ -75,7 +97,7 @@ export const createSpot = async (tripId: string, formData: FormData) => {
     headers: { "Content-Type": "application/json", ...(await getAuthHeader()) },
     body: JSON.stringify(body),
   });
-  if (!res.ok) throw new Error("Failed to create spot");
+  if (!res.ok) await throwApiError(res, validationConfig.createError);
   revalidatePath(`/trips/${tripId}`);
 };
 
@@ -91,7 +113,7 @@ export const createExpense = async (tripId: string, formData: FormData) => {
     headers: { "Content-Type": "application/json", ...(await getAuthHeader()) },
     body: JSON.stringify(body),
   });
-  if (!res.ok) throw new Error("Failed to create expense");
+  if (!res.ok) await throwApiError(res, validationConfig.createError);
   revalidatePath(`/trips/${tripId}`);
 };
 
@@ -106,7 +128,7 @@ export const updateSpot = async (
     headers: { "Content-Type": "application/json", ...(await getAuthHeader()) },
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error("Failed to update spot");
+  if (!res.ok) await throwApiError(res, validationConfig.saveError);
   revalidatePath(`/trips/${tripId}`);
 };
 
@@ -121,7 +143,7 @@ export const updateExpense = async (
     headers: { "Content-Type": "application/json", ...(await getAuthHeader()) },
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error("Failed to update expense");
+  if (!res.ok) await throwApiError(res, validationConfig.saveError);
   revalidatePath(`/trips/${tripId}`);
 };
 
@@ -131,7 +153,7 @@ export const deleteTrip = async (id: string) => {
     method: "DELETE",
     headers: await getAuthHeader(),
   });
-  if (!res.ok) throw new Error("Failed to delete trip");
+  if (!res.ok) await throwApiError(res, validationConfig.deleteError);
   revalidatePath("/");
 };
 
@@ -141,7 +163,7 @@ export const toggleSpotChecked = async (spotId: number, tripId: string) => {
     method: "PATCH",
     headers: await getAuthHeader(),
   });
-  if (!res.ok) throw new Error("Failed to toggle spot");
+  if (!res.ok) await throwApiError(res, validationConfig.updateError);
   revalidatePath(`/trips/${tripId}`);
 };
 
@@ -151,7 +173,7 @@ export const deleteSpot = async (spotId: number, tripId: string) => {
     method: "DELETE",
     headers: await getAuthHeader(),
   });
-  if (!res.ok) throw new Error("Failed to delete spot");
+  if (!res.ok) await throwApiError(res, validationConfig.deleteError);
   revalidatePath(`/trips/${tripId}`);
 };
 
@@ -161,7 +183,47 @@ export const deleteExpense = async (expenseId: number, tripId: string) => {
     method: "DELETE",
     headers: await getAuthHeader(),
   });
-  if (!res.ok) throw new Error("Failed to delete expense");
+  if (!res.ok) await throwApiError(res, validationConfig.deleteError);
+  revalidatePath(`/trips/${tripId}`);
+};
+
+// 参加者を追加
+export const createParticipant = async (tripId: string, formData: FormData) => {
+  const body = {
+    name: formData.get("name"),
+    email: formData.get("email") || undefined,
+  };
+  const res = await fetch(`${API_BASE}/trips/${tripId}/participants`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...(await getAuthHeader()) },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) await throwApiError(res, validationConfig.createError);
+  revalidatePath(`/trips/${tripId}`);
+};
+
+// 参加者を更新
+export const updateParticipant = async (
+  participantId: number,
+  tripId: string,
+  data: { name?: string; email?: string },
+) => {
+  const res = await fetch(`${API_BASE}/participants/${participantId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", ...(await getAuthHeader()) },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) await throwApiError(res, validationConfig.saveError);
+  revalidatePath(`/trips/${tripId}`);
+};
+
+// 参加者を削除
+export const deleteParticipant = async (participantId: number, tripId: string) => {
+  const res = await fetch(`${API_BASE}/participants/${participantId}`, {
+    method: "DELETE",
+    headers: await getAuthHeader(),
+  });
+  if (!res.ok) await throwApiError(res, validationConfig.deleteError);
   revalidatePath(`/trips/${tripId}`);
 };
 

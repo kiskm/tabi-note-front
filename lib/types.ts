@@ -21,6 +21,13 @@ export type Expense = {
   tripId: string;
 };
 
+export type Participant = {
+  id: number;
+  name: string;
+  email: string | null;
+  tripId: string;
+};
+
 export type Trip = {
   id: string;
   title: string;
@@ -36,6 +43,7 @@ export type Trip = {
 export type TripDetail = Trip & {
   spots: Spot[];
   expenses: Expense[];
+  participants: Participant[];
 };
 
 export type SubmitState = { error: string | null };
