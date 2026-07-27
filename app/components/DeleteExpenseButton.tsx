@@ -22,8 +22,10 @@ export const DeleteExpenseButton = ({
         await deleteExpense(expenseId, tripId);
         router.refresh();
         return { error: null };
-      } catch {
-        return { error: validationConfig.deleteError };
+      } catch (e) {
+        return {
+          error: e instanceof Error ? e.message : validationConfig.deleteError,
+        };
       }
     },
     { error: null },

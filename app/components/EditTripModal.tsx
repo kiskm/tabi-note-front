@@ -54,8 +54,10 @@ const EditTripModal = ({
         setEditing(false);
         router.refresh();
         return { error: null };
-      } catch {
-        return { error: validationConfig.updateError };
+      } catch (e) {
+        return {
+          error: e instanceof Error ? e.message : validationConfig.updateError,
+        };
       }
     },
     { error: null },

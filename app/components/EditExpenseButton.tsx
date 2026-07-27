@@ -43,8 +43,10 @@ export const EditExpenseButton = ({
         setEditing(false);
         router.refresh();
         return { error: null };
-      } catch {
-        return { error: validationConfig.saveError };
+      } catch (e) {
+        return {
+          error: e instanceof Error ? e.message : validationConfig.saveError,
+        };
       }
     },
     { error: null },

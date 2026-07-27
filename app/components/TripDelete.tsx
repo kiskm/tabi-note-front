@@ -16,8 +16,10 @@ const TripDelete = ({ tripId }: { tripId: string }) => {
         await deleteTrip(tripId);
         router.push("/");
         return { error: null };
-      } catch {
-        return { error: validationConfig.deleteError };
+      } catch (e) {
+        return {
+          error: e instanceof Error ? e.message : validationConfig.deleteError,
+        };
       }
     },
     { error: null },
