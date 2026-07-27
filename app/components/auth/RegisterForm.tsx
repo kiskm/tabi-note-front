@@ -6,7 +6,7 @@ import Link from "next/link";
 import { buttonConfig, headingConfig } from "@/app/constants/ui";
 import { userFormConfig } from "@/app/constants/form";
 import { validationConfig } from "@/app/constants/validation";
-import LoadingOverlay from "@/app/components/LoadingOverlay";
+import LoadingOverlay from "@/app/components/ui/LoadingOverlay";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Trip } from "@/lib/types";
-import TripCard from "@/app/components/TripCard";
+import TripCard from "@/app/components/trip/TripCard";
 import { buttonConfig, textConfig } from "@/app/constants/ui";
 
 const TripListTabs = ({ trips }: { trips: Trip[] }) => {
