@@ -1,20 +1,20 @@
 import Link from "next/link";
 import { getTrip } from "@/lib/api";
-import AddSpotForm from "@/app/components/AddSpotForm";
-import AddExpenseForm from "@/app/components/AddExpenseForm";
-import { DeleteSpotButton } from "@/app/components/DeleteSpotButton";
-import { EditSpotButton } from "@/app/components/EditSpotButton";
-import SpotCheckButton from "@/app/components/SpotCheckButton";
-import { ExpenseSummary } from "@/app/components/ExpenseSummary";
+import AddSpotForm from "@/app/components/spot/AddSpotForm";
+import AddExpenseForm from "@/app/components/expense/AddExpenseForm";
+import { DeleteSpotButton } from "@/app/components/spot/DeleteSpotButton";
+import { EditSpotButton } from "@/app/components/spot/EditSpotButton";
+import SpotCheckButton from "@/app/components/spot/SpotCheckButton";
+import { ExpenseSummary } from "@/app/components/expense/ExpenseSummary";
 import { textConfig, titleConfig } from "@/app/constants/ui";
-import TripAction from "@/app/components/TripAction";
+import TripAction from "@/app/components/trip/TripAction";
 import { differenceInBusinessDays } from "date-fns";
 import { IconMapPinPlus, IconReceipt, IconUsers } from "@tabler/icons-react";
-import AddParticipantForm from "@/app/components/AddParticipantForm";
-import { DeleteParticipantButton } from "@/app/components/DeleteParticipantButton";
-import { EditParticipantButton } from "@/app/components/EditParticipantButton";
-import TripDelete from "@/app/components/TripDelete";
-import EditTripModal from "@/app/components/EditTripModal";
+import AddParticipantForm from "@/app/components/participant/AddParticipantForm";
+import { DeleteParticipantButton } from "@/app/components/participant/DeleteParticipantButton";
+import { EditParticipantButton } from "@/app/components/participant/EditParticipantButton";
+import TripDelete from "@/app/components/trip/TripDelete";
+import EditTripModal from "@/app/components/trip/EditTripModal";
 import { cookies } from "next/headers";
 
 const TripDetailPage = async ({

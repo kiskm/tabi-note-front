@@ -5,8 +5,8 @@ import { createTrip } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
 import { tripFormConfig } from "@/app/constants/form";
 import { buttonConfig, toggleConfig } from "@/app/constants/ui";
-import CancelButton from "@/app/components/CancelButton";
-import LoadingOverlay from "@/app/components/LoadingOverlay";
+import CancelButton from "@/app/components/ui/CancelButton";
+import LoadingOverlay from "@/app/components/ui/LoadingOverlay";
 
 const AddTripModal = () => {
   // 状態管理

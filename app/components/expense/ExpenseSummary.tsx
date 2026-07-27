@@ -1,6 +1,6 @@
 import type { Expense } from "@/lib/types";
-import { EditExpenseButton } from "@/app/components/EditExpenseButton";
-import { DeleteExpenseButton } from "@/app/components/DeleteExpenseButton";
+import { EditExpenseButton } from "@/app/components/expense/EditExpenseButton";
+import { DeleteExpenseButton } from "@/app/components/expense/DeleteExpenseButton";
 
 // 定数の定義
 const CATEGORY_LABEL: Record<string, string> = {

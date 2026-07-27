@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { startTransition, useActionState } from "react";
 import { toggleSpotChecked } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
-import LoadingOverlay from "@/app/components/LoadingOverlay";
+import LoadingOverlay from "@/app/components/ui/LoadingOverlay";
 
 const SpotCheckButton = ({
   spotId,

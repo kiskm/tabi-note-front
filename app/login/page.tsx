@@ -1,5 +1,5 @@
 import { titleConfig } from "@/app/constants/ui";
-import LoginForm from "@/app/components/LoginForm";
+import LoginForm from "@/app/components/auth/LoginForm";
 
 const LoginPage = async () => {
   return (

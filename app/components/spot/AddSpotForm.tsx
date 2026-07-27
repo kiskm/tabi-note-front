@@ -2,20 +2,20 @@
 
 import { startTransition, useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createExpense } from "@/app/actions";
+import { createSpot } from "@/app/actions";
 import { validationConfig } from "@/app/constants/validation";
-import { CATEGORIES, expenseFormConfig } from "@/app/constants/form";
+import { spotFormConfig } from "@/app/constants/form";
 import { buttonConfig, toggleConfig } from "@/app/constants/ui";
-import CancelButton from "@/app/components/CancelButton";
-import LoadingOverlay from "@/app/components/LoadingOverlay";
+import CancelButton from "@/app/components/ui/CancelButton";
+import LoadingOverlay from "@/app/components/ui/LoadingOverlay";
 
-const AddExpenseForm = ({ tripId }: { tripId: string }) => {
+const AddSpotForm = ({ tripId }: { tripId: string }) => {
   // 状態管理
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [category, setCategory] = useState("transport");
-  const [amount, setAmount] = useState("");
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
   const [memo, setMemo] = useState("");
 
   const [state, action, pending] = useActionState<{
@@ -23,14 +23,14 @@ const AddExpenseForm = ({ tripId }: { tripId: string }) => {
   }>(
     async () => {
       const fd = new FormData();
-      fd.append("category", category);
-      fd.append("amount", amount);
+      fd.append("name", name.trim());
+      if (category.trim()) fd.append("category", category.trim());
       if (memo.trim()) fd.append("memo", memo.trim());
       try {
-        await createExpense(tripId, fd);
+        await createSpot(tripId, fd);
         setOpen(false);
-        setCategory("transport");
-        setAmount("");
+        setName("");
+        setCategory("");
         setMemo("");
         router.refresh();
         return { error: null };
@@ -42,31 +42,26 @@ const AddExpenseForm = ({ tripId }: { tripId: string }) => {
     },
     { error: null },
   );
+
   const handleSubmit = async () => {
     // バリデーション
-    const num = Number(amount);
-    if (!amount) {
-      setError(validationConfig.expense.amountRequired);
-      setAmount("");
+    if (!name.trim()) {
+      setError(validationConfig.spot.spotRequired);
+      setName("");
       return;
     }
-    if (num < 0) {
-      setError(validationConfig.expense.amountOverZero);
-      setAmount("");
+    if (name.trim().length > 100) {
+      setError(validationConfig.spot.spotLength);
+      setName("");
       return;
     }
-    if (num > 9999999) {
-      setError(validationConfig.expense.amountLength);
-      setAmount("");
-      return;
-    }
-    if (!Number.isInteger(num)) {
-      setError(validationConfig.expense.amountInteger);
-      setAmount("");
+    if (category.trim().length > 50) {
+      setError(validationConfig.spot.categoryLength);
+      setCategory("");
       return;
     }
     if (memo.trim().length > 500) {
-      setError(validationConfig.expense.memoLength);
+      setError(validationConfig.spot.memoLength);
       setMemo("");
       return;
     }
@@ -79,10 +74,10 @@ const AddExpenseForm = ({ tripId }: { tripId: string }) => {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="border border-emerald-600 text-emerald-800
+        className="border border-orange-600 text-orange-800
                        px-3 py-1.5 rounded-lg text-sm cursor-pointer hover:bg-gray-50 duration-300"
       >
-        {toggleConfig.addExpense}
+        {toggleConfig.addSpot}
       </button>
     );
   }
@@ -91,36 +86,29 @@ const AddExpenseForm = ({ tripId }: { tripId: string }) => {
     <>
       <div className="bg-white rounded-xl border border-gray-200 p-4 flex flex-col gap-3">
         <p className="text-sm font-medium text-gray-900">
-          {expenseFormConfig.addHeading}
+          {spotFormConfig.addHeading}
         </p>
         {(error || state.error) && (
           <p className="text-xs text-red-500 mb-3">{error || state.error}</p>
         )}
-        <select
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder={spotFormConfig.spotName}
+          maxLength={100}
+          className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
+        />
+        <input
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400 bg-white"
-        >
-          {CATEGORIES.map((c) => (
-            <option key={c.value} value={c.value}>
-              {c.label}
-            </option>
-          ))}
-        </select>
-        <input
-          type="number"
-          min="0"
-          max="9999999"
-          step="1"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          placeholder={expenseFormConfig.amount}
+          placeholder={spotFormConfig.category}
+          maxLength={50}
           className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
         />
         <input
           value={memo}
           onChange={(e) => setMemo(e.target.value)}
-          placeholder={expenseFormConfig.memo}
+          placeholder={spotFormConfig.memo}
           maxLength={500}
           className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
         />
@@ -144,4 +132,4 @@ const AddExpenseForm = ({ tripId }: { tripId: string }) => {
   );
 };
 
-export default AddExpenseForm;
+export default AddSpotForm;

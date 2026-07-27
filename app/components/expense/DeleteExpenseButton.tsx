@@ -2,24 +2,24 @@
 
 import { useRouter } from "next/navigation";
 import { startTransition, useActionState } from "react";
-import { deleteParticipant } from "@/app/actions";
+import { deleteExpense } from "@/app/actions";
 import { buttonConfig, confirmConfig } from "@/app/constants/ui";
 import { validationConfig } from "@/app/constants/validation";
 import { SubmitState } from "@/lib/types";
-import LoadingOverlay from "@/app/components/LoadingOverlay";
+import LoadingOverlay from "@/app/components/ui/LoadingOverlay";
 
-export const DeleteParticipantButton = ({
-  participantId,
+export const DeleteExpenseButton = ({
+  expenseId,
   tripId,
 }: {
-  participantId: number;
+  expenseId: number;
   tripId: string;
 }) => {
   const router = useRouter();
   const [state, action, pending] = useActionState<SubmitState>(
     async (_prevState) => {
       try {
-        await deleteParticipant(participantId, tripId);
+        await deleteExpense(expenseId, tripId);
         router.refresh();
         return { error: null };
       } catch (e) {
@@ -31,8 +31,8 @@ export const DeleteParticipantButton = ({
     { error: null },
   );
 
-  const handleDelete = () => {
-    if (!confirm(confirmConfig.deleteParticipant)) return;
+  const handleDelete = async () => {
+    if (!confirm(confirmConfig.deleteExpense)) return;
     startTransition(action);
   };
 
@@ -41,7 +41,7 @@ export const DeleteParticipantButton = ({
       <button
         onClick={handleDelete}
         disabled={pending}
-        className="ml-auto px-2 text-xs text-gray-400 hover:text-red-500 disabled:opacity-50 cursor-pointer"
+        className="px-2 text-xs text-gray-400 hover:text-red-500 disabled:opacity-50 cursor-pointer"
       >
         {buttonConfig.delete}
       </button>

@@ -1,10 +1,10 @@
 import { cookies } from "next/headers";
 import { getTrips } from "@/lib/api";
-import TripListTabs from "@/app/components/TripListTabs";
-import AddTripModal from "@/app/components/AddTripModal";
+import TripListTabs from "@/app/components/trip/TripListTabs";
+import AddTripModal from "@/app/components/trip/AddTripModal";
 import { titleConfig } from "@/app/constants/ui";
-import { LogoutButton } from "@/app/components/LogoutButton";
-import AchievementRateBar from "@/app/components/AchievementRateBar";
+import { LogoutButton } from "@/app/components/auth/LogoutButton";
+import AchievementRateBar from "@/app/components/ui/AchievementRateBar";
 
 const Page = async () => {
   const trips = await getTrips();

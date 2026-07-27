@@ -1,5 +1,5 @@
 import { titleConfig } from "@/app/constants/ui";
-import RegisterForm from "@/app/components/RegisterForm";
+import RegisterForm from "@/app/components/auth/RegisterForm";
 
 const RegisterPage = async () => {
   return (
