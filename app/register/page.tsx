@@ -11,7 +11,6 @@ const RegisterPage = async () => {
       </div>
       <div className="flex justify-end">
         <div className="mb-4 mr-1">
-          <h1>ユーザ登録</h1>
           <RegisterForm />
         </div>
       </div>
