@@ -15,19 +15,23 @@ TODO
 
 ## 主な機能
 
-- ユーザー認証
-- 旅行記の作成・編集・削除
-- 写真のアップロード・表示
-- （実装した機能を書く）
+- ユーザー登録・ログイン・ログアウト（JWT 認証、未ログイン時はログインページへリダイレクト）
+- 旅行記の作成・編集・削除（エリア・期間・予算・ステータス管理）
+- 訪問スポットの作成・編集・削除・訪問チェック切り替え
+- 費用の記録・編集・削除とカテゴリ別集計・予算に対する達成率表示
+- 参加者の追加・編集・削除
 
 ## 技術スタック
 
 | カテゴリ         | 採用技術             |
 | ---------------- | -------------------- |
-| 言語             | TypeScript           |
-| フレームワーク   | Next.js (App Router) |
-| スタイリング     | Tailwind CSS         |
-| HTTPクライアント | Axios / fetch        |
+| 言語             | TypeScript            |
+| フレームワーク   | Next.js (App Router)  |
+| スタイリング     | Tailwind CSS           |
+| データ取得・更新 | Server Actions / fetch |
+| アイコン         | Tabler Icons           |
+| コンテナ         | Docker                |
+| CI               | GitHub Actions        |
 
 ## 技術選定の理由
 
@@ -47,30 +51,37 @@ TODO
 # 依存関係インストール
 npm install
 
-# 環境変数ファイル作成
-cp .env.example .env.local
-# .env.local を編集してAPIエンドポイントなどを設定
-
 # 開発サーバー起動
 npm run dev
 ```
 
 開発サーバーが http://localhost:3000 で起動します。
 
+APIの接続先は環境変数 `API_URL` で設定します（未設定時は `http://localhost:8000`）。
+
+### Docker での起動
+
+リポジトリルート（[tabi-note-deploy](https://github.com/kiskm/tabi-note-deploy)）の `docker-compose.yml` から、DB・API・フロントエンドをまとめて起動できます。
+
+```bash
+docker compose up
+```
+
 ## ディレクトリ構成
 
 ```
-src/
-├─── app/          # ページコンポーネント（App Router）
-| └─ components/   # 再利用可能なコンポーネント
-| └─ trips/[id]/   # 旅行ページコンポーネント（App Router）
-├── lib/           # ユーティリティ関数
+app/
+├── actions.ts        # Server Actions（API呼び出し）
+├── components/        # 再利用可能なコンポーネント（auth / trip / spot / expense / participant / ui）
+├── constants/          # 定数（エリア、フォーム、バリデーション、UI）
+├── login/              # ログインページ
+├── register/           # 登録ページ
+└── trips/[id]/         # 旅行詳細ページ
+lib/
+├── api.ts              # API呼び出し共通処理
+├── auth.ts             # 認証トークン取得
+└── types.ts             # 型定義
+middleware.ts            # 未ログイン時のリダイレクト制御
 ```
 
 ## 今後の改善予定
-
-- [ ] リファクタリング・ファイル構成の見直し
-- [ ] ユーザー登録機能の追加
-- [ ] グループ機能の追加
-- [ ] URLパラメータの設計見直し
-- [ ] パフォーマンス改善
