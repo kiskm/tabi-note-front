@@ -43,7 +43,9 @@ const AreaSelect = ({
         className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm flex flex-wrap items-center gap-1 cursor-pointer min-h-[38px]"
       >
         {value.length === 0 ? (
-          <span className="text-gray-400">{tripFormConfig.areaPlaceholder}</span>
+          <span className="text-gray-400">
+            {tripFormConfig.areaPlaceholder}
+          </span>
         ) : (
           value.map((area) => (
             <span
@@ -64,13 +66,18 @@ const AreaSelect = ({
             </span>
           ))
         )}
-        <span className="ml-auto text-gray-400 text-xs">{open ? "▲" : "▼"}</span>
+        <span className="ml-auto text-gray-400 text-xs">
+          {open ? "▲" : "▼"}
+        </span>
       </div>
 
       {open && (
         <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-md max-h-72 overflow-y-auto">
           {AREA_REGIONS.map(({ region, prefectures }) => (
-            <div key={region} className="border-b border-gray-100 last:border-b-0">
+            <div
+              key={region}
+              className="border-b border-gray-100 last:border-b-0"
+            >
               <button
                 type="button"
                 onClick={() =>
@@ -84,7 +91,7 @@ const AreaSelect = ({
                 </span>
               </button>
               {openRegion === region && (
-                <div className="px-3 pb-2 flex flex-wrap gap-x-3 gap-y-1">
+                <div className="px-3 py-2 flex flex-wrap gap-x-3 gap-y-1">
                   {prefectures.map((pref) => (
                     <label
                       key={pref}
