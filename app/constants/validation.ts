@@ -2,7 +2,7 @@ export const validationConfig = {
   trip: {
     titleRequired: "タイトルは必須です",
     titleLength: "タイトルは100文字以内で入力してください",
-    areaLength: "エリアは100文字以内で入力してください",
+    areaRequired: "エリアを1つ以上選択してください",
     dateSelect: "終了日は開始日以降の日付を入力してください",
     budgetRequired: "予算は0以上で入力してください",
     budgetLength: "予算は9,999,999円以下で入力してください",

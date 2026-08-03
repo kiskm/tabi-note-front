@@ -23,7 +23,7 @@ export const tripFormConfig = {
   title: "タイトル",
   tripName: "例：京都・奈良 紅葉旅",
   areaLabel: "エリア",
-  area: "例：関西",
+  areaPlaceholder: "エリアを選択",
   startDate: "開始日",
   endDate: "終了日",
   budgetLabel: "予算（円）",

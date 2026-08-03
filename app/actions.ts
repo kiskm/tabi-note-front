@@ -34,7 +34,7 @@ const throwApiError = async (res: Response, fallback: string): Promise<never> =>
 export const createTrip = async (formData: FormData) => {
   const body = {
     title: formData.get("title"),
-    area: formData.get("area") || undefined,
+    area: formData.getAll("area"),
     startDate: formData.get("startDate") || undefined,
     endDate: formData.get("endDate") || undefined,
     budget: formData.get("budget") ? Number(formData.get("budget")) : undefined,
@@ -56,7 +56,7 @@ export const updateTrip = async (
   tripId: string,
   data: {
     title?: string;
-    area?: string;
+    area?: string[];
     startDate?: string;
     endDate?: string;
     budget?: number;

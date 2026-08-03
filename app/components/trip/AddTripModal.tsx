@@ -7,13 +7,14 @@ import { tripFormConfig } from "@/app/constants/form";
 import { buttonConfig, toggleConfig } from "@/app/constants/ui";
 import CancelButton from "@/app/components/ui/CancelButton";
 import LoadingOverlay from "@/app/components/ui/LoadingOverlay";
+import AreaSelect from "@/app/components/trip/AreaSelect";
 
 const AddTripModal = () => {
   // 状態管理
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [title, setTitle] = useState("");
-  const [area, setArea] = useState("");
+  const [area, setArea] = useState<string[]>([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [budget, setBudget] = useState("");
@@ -24,7 +25,7 @@ const AddTripModal = () => {
     async () => {
       const fd = new FormData();
       fd.append("title", title.trim());
-      if (area.trim()) fd.append("area", area.trim());
+      area.forEach((a) => fd.append("area", a));
       if (startDate) fd.append("startDate", startDate);
       if (endDate) fd.append("endDate", endDate);
       if (budget) fd.append("budget", budget);
@@ -32,7 +33,7 @@ const AddTripModal = () => {
         await createTrip(fd);
         setOpen(false);
         setTitle("");
-        setArea("");
+        setArea([]);
         setStartDate("");
         setEndDate("");
         setBudget("");
@@ -58,9 +59,8 @@ const AddTripModal = () => {
       setTitle("");
       return;
     }
-    if (area.trim().length > 100) {
-      setError(validationConfig.trip.areaLength);
-      setArea("");
+    if (area.length === 0) {
+      setError(validationConfig.trip.areaRequired);
       return;
     }
     if (startDate && endDate && endDate < startDate) {
@@ -136,13 +136,7 @@ const AddTripModal = () => {
                 <label className="text-xs text-gray-500 mb-1 block">
                   {tripFormConfig.areaLabel}
                 </label>
-                <input
-                  value={area}
-                  onChange={(e) => setArea(e.target.value)}
-                  placeholder={tripFormConfig.area}
-                  maxLength={100}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400"
-                />
+                <AreaSelect value={area} onChange={setArea} />
               </div>
               <div className="flex gap-2">
                 <div className="flex-1">
