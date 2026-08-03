@@ -26,9 +26,16 @@ const TripCard = ({ trip }: { trip: Trip }) => {
             {trip.status === "done" ? buttonConfig.done : buttonConfig.want}
           </span>
         </div>
-        {trip.area || trip.startDate ? (
+        {trip.area.length > 0 || trip.startDate ? (
           <p className="text-xs text-gray-500 mb-2">
-            {[trip.startDate?.slice(0, 7).replace("-", "年") + "月", trip.area]
+            {[
+              trip.startDate?.slice(0, 7).replace("-", "年") + "月",
+              trip.area.length > 0
+                ? `${trip.area[0]}${
+                    trip.area.length > 1 ? ` 他${trip.area.length - 1}件` : ""
+                  }`
+                : undefined,
+            ]
               .filter(Boolean)
               .join(" · ")}
           </p>

@@ -33,7 +33,7 @@ export type Trip = {
   title: string;
   startDate: string | null;
   endDate: string | null;
-  area: string | null;
+  area: string[];
   status: TripStatus;
   budget: number | null;
   userId: string;

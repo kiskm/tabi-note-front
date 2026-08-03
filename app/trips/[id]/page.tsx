@@ -62,7 +62,7 @@ const TripDetailPage = async ({
                 <div className="font-serif text-xl text-orange-950 leading-tight">
                   {trip.title}
                 </div>
-                <p>{trip.area}</p>
+                <p>{trip.area.join("、")}</p>
                 <div className="text-sm text-orange-800 mt-0.5">
                   {dateRange}
                 </div>
