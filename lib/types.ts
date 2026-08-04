@@ -19,6 +19,9 @@ export type Expense = {
   amount: number;
   memo: string | null;
   tripId: string;
+  paidByParticipantId: number | null;
+  paidBy: Participant | null;
+  splitParticipants: Participant[];
 };
 
 export type Participant = {
@@ -26,6 +29,7 @@ export type Participant = {
   name: string;
   email: string | null;
   tripId: string;
+  userId: string | null;
 };
 
 export type Trip = {

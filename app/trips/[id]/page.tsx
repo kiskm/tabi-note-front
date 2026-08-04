@@ -39,6 +39,9 @@ const TripDetailPage = async ({
   }
 
   const total = trip.expenses.reduce((sum, e) => sum + e.amount, 0);
+  const selfParticipant = trip.participants.find(
+    (p) => p.userId === trip.userId,
+  );
 
   return (
     <>
@@ -250,9 +253,14 @@ const TripDetailPage = async ({
                     expenses={trip.expenses}
                     budget={trip.budget}
                     tripId={trip.id}
+                    participants={trip.participants}
                   />
                   <div className="mt-1">
-                    <AddExpenseForm tripId={trip.id} />
+                    <AddExpenseForm
+                      tripId={trip.id}
+                      participants={trip.participants}
+                      defaultPayerId={selfParticipant?.id}
+                    />
                   </div>
                 </>
               ) : (
@@ -266,7 +274,11 @@ const TripDetailPage = async ({
                   <p className="text-sm text-stone-500 mb-3">
                     {textConfig.noExpenses}
                   </p>
-                  <AddExpenseForm tripId={trip.id} />
+                  <AddExpenseForm
+                    tripId={trip.id}
+                    participants={trip.participants}
+                    defaultPayerId={selfParticipant?.id}
+                  />
                 </div>
               )}
             </div>

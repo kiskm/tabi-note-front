@@ -43,6 +43,8 @@ export const expenseFormConfig = {
   editHeading: "支出を編集",
   amount: "金額（円） *",
   memo: "メモ（任意）",
+  paidByPlaceholder: "支払った人を選択",
+  splitParticipants: "精算対象者（この費用を割り勘する人）",
 };
 
 export const participantFormConfig = {

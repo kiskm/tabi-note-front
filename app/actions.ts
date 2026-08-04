@@ -103,10 +103,15 @@ export const createSpot = async (tripId: string, formData: FormData) => {
 
 // 支出を追加
 export const createExpense = async (tripId: string, formData: FormData) => {
+  const paidByParticipantId = formData.get("paidByParticipantId");
   const body = {
     category: formData.get("category"),
     amount: Number(formData.get("amount")),
     memo: formData.get("memo") || undefined,
+    paidByParticipantId: paidByParticipantId
+      ? Number(paidByParticipantId)
+      : undefined,
+    splitParticipantIds: formData.getAll("splitParticipantIds").map(Number),
   };
   const res = await fetch(`${API_BASE}/trips/${tripId}/expenses`, {
     method: "POST",
@@ -136,7 +141,13 @@ export const updateSpot = async (
 export const updateExpense = async (
   expenseId: number,
   tripId: string,
-  data: { category?: string; amount?: number; memo?: string },
+  data: {
+    category?: string;
+    amount?: number;
+    memo?: string;
+    paidByParticipantId?: number;
+    splitParticipantIds?: number[];
+  },
 ) => {
   const res = await fetch(`${API_BASE}/expenses/${expenseId}`, {
     method: "PATCH",

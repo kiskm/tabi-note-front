@@ -8,8 +8,18 @@ import { CATEGORIES, expenseFormConfig } from "@/app/constants/form";
 import { buttonConfig, toggleConfig } from "@/app/constants/ui";
 import CancelButton from "@/app/components/ui/CancelButton";
 import LoadingOverlay from "@/app/components/ui/LoadingOverlay";
+import SelectArrow from "@/app/components/ui/SelectArrow";
+import type { Participant } from "@/lib/types";
 
-const AddExpenseForm = ({ tripId }: { tripId: string }) => {
+const AddExpenseForm = ({
+  tripId,
+  participants,
+  defaultPayerId,
+}: {
+  tripId: string;
+  participants: Participant[];
+  defaultPayerId?: number;
+}) => {
   // 状態管理
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -17,6 +27,18 @@ const AddExpenseForm = ({ tripId }: { tripId: string }) => {
   const [category, setCategory] = useState("transport");
   const [amount, setAmount] = useState("");
   const [memo, setMemo] = useState("");
+  const [paidByParticipantId, setPaidByParticipantId] = useState(
+    defaultPayerId ? String(defaultPayerId) : "",
+  );
+  const [splitParticipantIds, setSplitParticipantIds] = useState(
+    participants.map((p) => p.id),
+  );
+
+  const toggleSplitParticipant = (id: number) => {
+    setSplitParticipantIds((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id],
+    );
+  };
 
   const [state, action, pending] = useActionState<{
     error: string | null;
@@ -26,12 +48,18 @@ const AddExpenseForm = ({ tripId }: { tripId: string }) => {
       fd.append("category", category);
       fd.append("amount", amount);
       if (memo.trim()) fd.append("memo", memo.trim());
+      if (paidByParticipantId) fd.append("paidByParticipantId", paidByParticipantId);
+      splitParticipantIds.forEach((id) =>
+        fd.append("splitParticipantIds", String(id)),
+      );
       try {
         await createExpense(tripId, fd);
         setOpen(false);
         setCategory("transport");
         setAmount("");
         setMemo("");
+        setPaidByParticipantId(defaultPayerId ? String(defaultPayerId) : "");
+        setSplitParticipantIds(participants.map((p) => p.id));
         router.refresh();
         return { error: null };
       } catch (e) {
@@ -70,6 +98,10 @@ const AddExpenseForm = ({ tripId }: { tripId: string }) => {
       setMemo("");
       return;
     }
+    if (splitParticipantIds.length === 0) {
+      setError(validationConfig.expense.splitParticipantsRequired);
+      return;
+    }
 
     setError(null);
     startTransition(() => action());
@@ -96,17 +128,54 @@ const AddExpenseForm = ({ tripId }: { tripId: string }) => {
         {(error || state.error) && (
           <p className="text-xs text-red-500 mb-3">{error || state.error}</p>
         )}
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-gray-400 bg-white"
-        >
-          {CATEGORIES.map((c) => (
-            <option key={c.value} value={c.value}>
-              {c.label}
-            </option>
+        <div className="relative">
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full appearance-none border border-gray-200 rounded-lg px-3 py-2 pr-8 text-sm focus:outline-none focus:border-gray-400 bg-white"
+          >
+            {CATEGORIES.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+          <SelectArrow />
+        </div>
+        <div className="relative">
+          <select
+            value={paidByParticipantId}
+            onChange={(e) => setPaidByParticipantId(e.target.value)}
+            className="w-full appearance-none border border-gray-200 rounded-lg px-3 py-2 pr-8 text-sm focus:outline-none focus:border-gray-400 bg-white"
+          >
+            <option value="">{expenseFormConfig.paidByPlaceholder}</option>
+            {participants.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+          <SelectArrow />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <p className="text-xs text-gray-400">
+            {expenseFormConfig.splitParticipants}
+          </p>
+          {participants.map((p) => (
+            <label
+              key={p.id}
+              className="flex items-center gap-2 text-sm text-gray-700"
+            >
+              <input
+                type="checkbox"
+                checked={splitParticipantIds.includes(p.id)}
+                onChange={() => toggleSplitParticipant(p.id)}
+                className="accent-emerald-600"
+              />
+              {p.name}
+            </label>
           ))}
-        </select>
+        </div>
         <input
           type="number"
           min="0"

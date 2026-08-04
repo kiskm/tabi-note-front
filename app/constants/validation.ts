@@ -20,6 +20,7 @@ export const validationConfig = {
     amountLength: "金額は9,999,999円以下で入力してください",
     amountInteger: "金額は整数で入力してください",
     memoLength: "メモは500文字以内で入力してください",
+    splitParticipantsRequired: "精算対象者を1人以上選択してください",
   },
   participant: {
     nameRequired: "名前は必須です",
